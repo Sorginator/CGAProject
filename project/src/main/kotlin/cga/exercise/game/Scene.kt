@@ -1,5 +1,7 @@
 package cga.exercise.game
 
+import cga.exercise.components.camera.ProjectCamera
+import org.joml.Math
 import cga.exercise.components.camera.TronCamera
 import cga.exercise.components.geometry.*
 import cga.exercise.components.light.PointLight
@@ -7,6 +9,7 @@ import cga.exercise.components.light.SpotLight
 import cga.exercise.components.shader.ShaderProgram
 import cga.exercise.components.texture.Texture2D
 import cga.framework.*
+import org.joml.Vector3f
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.glfw.GLFW.*
 
@@ -17,6 +20,7 @@ import org.lwjgl.glfw.GLFW.*
 class Scene(private val window: GameWindow) {
     private val staticShader: ShaderProgram
     val ground : loadedObject
+    val cam : ProjectCamera
 
     //scene setup
     init {
@@ -34,6 +38,11 @@ class Scene(private val window: GameWindow) {
 
         ground = loadedObject("assets/models/ground.obj", "assets/textures/ground_diff.png", "assets/textures/ground_emit.png", "assets/textures/ground_spec.png")
 
+        //cam stuff
+
+        cam= ProjectCamera(null)
+        cam.rotateLocal(Math.toRadians(20f),0f,0f)
+        cam.translateLocal(Vector3f(0f,0f,10f))
     }
 
     /* ***********************************************************
