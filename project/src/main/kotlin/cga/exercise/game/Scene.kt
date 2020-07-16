@@ -1,10 +1,7 @@
 package cga.exercise.game
 
 import cga.exercise.components.camera.TronCamera
-import cga.exercise.components.geometry.Material
-import cga.exercise.components.geometry.Mesh
-import cga.exercise.components.geometry.Renderable
-import cga.exercise.components.geometry.VertexAttribute
+import cga.exercise.components.geometry.*
 import cga.exercise.components.light.PointLight
 import cga.exercise.components.light.SpotLight
 import cga.exercise.components.shader.ShaderProgram
@@ -18,12 +15,13 @@ import org.lwjgl.glfw.GLFW.*
  * Created by Fabian on 16.09.2017.
  */
 class Scene(private val window: GameWindow) {
-    //private val staticShader: ShaderProgram
+    private val staticShader: ShaderProgram
+    val ground : loadedObject
 
     //scene setup
     init {
         // Shader initialisieren
-        //staticShader = ShaderProgram("assets/shaders/tron_vert.glsl", "assets/shaders/tron_frag.glsl")
+        staticShader = ShaderProgram("assets/shaders/project_vert.glsl", "assets/shaders/project_frag.glsl")
 
         glEnable(GL_CULL_FACE)
         glFrontFace(GL_CCW)
@@ -34,6 +32,8 @@ class Scene(private val window: GameWindow) {
         glEnable(GL_DEPTH_TEST); GLError.checkThrow()
         glDepthFunc(GL_LESS); GLError.checkThrow()
 
+        ground = loadedObject("assets/models/ground.obj", "assets/textures/ground_diff.png", "assets/textures/ground_emit.png", "assets/textures/ground_spec.png")
+
     }
 
     /* ***********************************************************
@@ -43,7 +43,7 @@ class Scene(private val window: GameWindow) {
     fun render (dt: Float, t:Float)
     {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
-        //staticShader.use()
+        staticShader.use()
     }
 
     fun update(dt: Float, t: Float) {

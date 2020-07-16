@@ -12,7 +12,8 @@ class loadedObject(
         texturMipmap : Boolean = true,
         diffTexParams : Vector4i = Vector4i(GL30.GL_REPEAT, GL30.GL_REPEAT, GL30.GL_LINEAR_MIPMAP_LINEAR, GL30.GL_LINEAR),
         emitTexParams : Vector4i = Vector4i(GL30.GL_REPEAT, GL30.GL_REPEAT, GL30.GL_LINEAR_MIPMAP_LINEAR, GL30.GL_LINEAR),
-        specTexParams : Vector4i = Vector4i(GL30.GL_REPEAT, GL30.GL_REPEAT, GL30.GL_LINEAR_MIPMAP_LINEAR, GL30.GL_LINEAR)) {
+        specTexParams : Vector4i = Vector4i(GL30.GL_REPEAT, GL30.GL_REPEAT, GL30.GL_LINEAR_MIPMAP_LINEAR, GL30.GL_LINEAR),
+        materialShininess : Float = 60f, materialTcMultiplier : Vector2f = Vector2f(64.0f, 64.0f)) {
 
     var meshData : MutableList<OBJLoader.OBJMesh>
     var createdMeshes : MutableList<Mesh>
@@ -34,7 +35,7 @@ class loadedObject(
         specTextur = Texture2D(specTexturPath, texturMipmap)
         specTextur.setTexParams(specTexParams[0], specTexParams[2], specTexParams[3], specTexParams[4])
         // Erstellen des Materials mit den erstellten Texturen
-        objectMaterial = Material(diffTextur, emitTextur, specTextur, 60f, Vector2f(64.0f, 64.0f))
+        objectMaterial = Material(diffTextur, emitTextur, specTextur, materialShininess, materialTcMultiplier)
         // Erstellen der Meshes
         createdMeshes = mutableListOf()
         for ((index, aktMeshData) in meshData.withIndex()) {
