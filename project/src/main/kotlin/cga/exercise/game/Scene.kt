@@ -1,7 +1,5 @@
 package cga.exercise.game
 
-import cga.exercise.components.camera.ProjectCamera
-import org.joml.Math
 import cga.exercise.components.camera.TronCamera
 import cga.exercise.components.geometry.*
 import cga.exercise.components.light.PointLight
@@ -11,7 +9,14 @@ import cga.exercise.components.texture.Texture2D
 import cga.framework.*
 import org.joml.Vector3f
 import org.lwjgl.opengl.GL11.*
+import org.lwjgl.opengl.GL30
+import org.joml.Math
+import org.joml.Vector2f
+import org.joml.Vector4f
 import org.lwjgl.glfw.GLFW.*
+import java.awt.MouseInfo
+import java.lang.Math.sin
+import kotlin.math.sin
 
 
 /**
@@ -19,13 +24,17 @@ import org.lwjgl.glfw.GLFW.*
  */
 class Scene(private val window: GameWindow) {
     private val staticShader: ShaderProgram
-    val ground : loadedObject
-    val cam : ProjectCamera
+    val cycle:Renderable
+    val cam:TronCamera
+    var pointLight: PointLight
+    var spotLight: SpotLight
+
+    val loadedObjectGround : loadedObject
 
     //scene setup
     init {
         // Shader initialisieren
-        staticShader = ShaderProgram("assets/shaders/project_vert.glsl", "assets/shaders/project_frag.glsl")
+        staticShader = ShaderProgram("assets/shaders/tron_vert.glsl", "assets/shaders/tron_frag.glsl")
 
         glEnable(GL_CULL_FACE)
         glFrontFace(GL_CCW)
@@ -36,13 +45,24 @@ class Scene(private val window: GameWindow) {
         glEnable(GL_DEPTH_TEST); GLError.checkThrow()
         glDepthFunc(GL_LESS); GLError.checkThrow()
 
-        ground = loadedObject("assets/models/ground.obj", "assets/textures/ground_diff.png", "assets/textures/ground_emit.png", "assets/textures/ground_spec.png")
+        //Generate Cycle
+        cycle = ModelLoader.loadModel("assets/Light Cycle/Light Cycle/HQ_Movie cycle.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        cycle.scaleLocal(Vector3f(0.8f, 0.8f, 0.8f))
 
-        //cam stuff
+        // Ground (Objekt + Texturen) einlesen
+        loadedObjectGround = loadedObject("assets/models/ground.obj", "assets/textures/ground_diff.png", "assets/textures/ground_emit.png", "assets/textures/ground_spec.png")
 
-        cam= ProjectCamera(null)
-        cam.rotateLocal(Math.toRadians(20f),0f,0f)
-        cam.translateLocal(Vector3f(0f,0f,10f))
+        //Cam Setup
+        cam= TronCamera(cycle)
+        cam.rotateLocal(Math.toRadians(-20f),0f,0f)
+        cam.translateLocal(Vector3f(0f,0f,4f))
+
+        //licht und so
+        pointLight=PointLight(Vector3f(0f, 1f, 0f), Vector3f(1.0f, 0.5f, 0.1f), Vector3f(0.2f,0.9f,0.8f),cycle)
+
+        spotLight= SpotLight(Vector3f(0f,1f,0f), Vector3f(0.5f, 0.05f, 0.01f),Vector3f(0.5f,0.5f,1f), cycle, 15f,20f)
+        spotLight.rotateLocal(Math.toRadians(-20f),0f,0f)
+
     }
 
     /* ***********************************************************
@@ -53,6 +73,14 @@ class Scene(private val window: GameWindow) {
     {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
         staticShader.use()
+        cam.bind(staticShader)
+        pointLight.light_color = Vector3f(((sin(t-1f)+1f)/2f),( sin(t-0.5f)+1f)/2f, (sin(t)+1f)/2f)
+        pointLight.bind(staticShader,"point")
+        spotLight.bind(staticShader, "spot", cam.getCalculateViewMatrix())
+        staticShader.setUniform("colo", Vector3f(0f, 1f, 0f))
+        loadedObjectGround.renderableObject.render(staticShader)
+        staticShader.setUniform("colo", Vector3f(((sin(t-1f)+1f)/2f),( sin(t-0.5f)+1f)/2f, (sin(t)+1f)/2f))
+        cycle.render(staticShader)
     }
 
     fun update(dt: Float, t: Float) {
@@ -70,7 +98,8 @@ class Scene(private val window: GameWindow) {
         }
         if (window.getKeyState(GLFW_KEY_SPACE)) {
 
-        } else {
+        }
+        else{
 
         }
 
@@ -82,7 +111,10 @@ class Scene(private val window: GameWindow) {
 
     fun onKey(key: Int, scancode: Int, action: Int, mode: Int) {}
 
-    fun onMouseMove(xpos: Double, ypos: Double) {}
+    fun onMouseMove(xpos: Double, ypos: Double)
+    {
+
+    }
 
     fun cleanup() {}
 
