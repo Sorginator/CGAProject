@@ -30,8 +30,9 @@ class Scene(private val window: GameWindow) {
     //var pointLight: PointLight
     var spotLight: SpotLight
     val sonne : PointLight
-    val baum_01 : Renderable
     val loadedObjectGround : loadedObject
+    val baum_01 : Renderable
+    val spinne : Renderable
 
     var old_mouse_pos_x : Double
     var old_mouse_pos_y : Double
@@ -73,9 +74,15 @@ class Scene(private val window: GameWindow) {
         sonne = PointLight(org.joml.Vector3f(0f, 9f, 0f), Vector3f(1.0f, 0.5f, 0.1f), Vector3f(1f,1f,0f), null)
 
         // Baum
-        baum_01 = ModelLoader.loadModel("assets/Tree/Tree.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        baum_01 = ModelLoader.loadModel("assets/complex objects/Tree/Tree.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
         baum_01.translateGlobal(Vector3f(-2f, 0f, 0f))
         baum_01.rotateLocal(0f, 0f, Math.toRadians(-90f))
+
+        // Spinne
+        spinne = ModelLoader.loadModel("assets/complex objects/Spinne/Only_Spider_with_Animations_Export.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        spinne.translateGlobal(Vector3f(2f, 0f, 0f))
+        spinne.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
+        spinne.rotateLocal(0f, 0f, Math.toRadians(-90f))
 
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
@@ -98,6 +105,7 @@ class Scene(private val window: GameWindow) {
         loadedObjectGround.renderableObject.render(staticShader)
         cycle.render(staticShader)
         baum_01.render(staticShader)
+        spinne.render(staticShader)
     }
 
     fun update(dt: Float, t: Float) {
