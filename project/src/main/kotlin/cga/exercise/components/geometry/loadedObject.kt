@@ -10,9 +10,9 @@ import org.lwjgl.opengl.GL30
 class loadedObject(
         objectPath : String, diffTexturPath: String, emitTexturPath: String, specTexturPath: String,
         texturMipmap : Boolean = true,
-        diffTexParams : Vector4i = Vector4i(GL30.GL_REPEAT, GL30.GL_REPEAT, GL30.GL_LINEAR_MIPMAP_LINEAR, GL30.GL_LINEAR),
-        emitTexParams : Vector4i = Vector4i(GL30.GL_REPEAT, GL30.GL_REPEAT, GL30.GL_LINEAR_MIPMAP_LINEAR, GL30.GL_LINEAR),
-        specTexParams : Vector4i = Vector4i(GL30.GL_REPEAT, GL30.GL_REPEAT, GL30.GL_LINEAR_MIPMAP_LINEAR, GL30.GL_LINEAR),
+        diffTexParamWrapS : Int = GL30.GL_REPEAT, diffTexParamWrapT : Int = GL30.GL_REPEAT, diffTexParamMinFilter : Int = GL30.GL_LINEAR_MIPMAP_LINEAR, diffTexParamMagFilter : Int = GL30.GL_LINEAR,
+        emitTexParamWrapS : Int = GL30.GL_REPEAT, emitTexParamWrapT : Int = GL30.GL_REPEAT, emitTexParamMinFilter : Int = GL30.GL_LINEAR_MIPMAP_LINEAR, emitTexParamMagFilter : Int = GL30.GL_LINEAR,
+        specTexParamWrapS : Int = GL30.GL_REPEAT, specTexParamWrapT : Int = GL30.GL_REPEAT, specTexParamMinFilter : Int = GL30.GL_LINEAR_MIPMAP_LINEAR, specTexParamMagFilter : Int = GL30.GL_LINEAR,
         materialShininess : Float = 60f, materialTcMultiplier : Vector2f = Vector2f(64.0f, 64.0f)) {
 
     var meshData : MutableList<OBJLoader.OBJMesh>
@@ -29,11 +29,11 @@ class loadedObject(
         meshData = loadedData.objects[0].meshes
         // Erstellen der Texturen
         diffTextur = Texture2D(diffTexturPath, texturMipmap)
-        diffTextur.setTexParams(diffTexParams[0], diffTexParams[2], diffTexParams[3], diffTexParams[4])
+        diffTextur.setTexParams(diffTexParamWrapS, diffTexParamWrapT, diffTexParamMinFilter, diffTexParamMagFilter)
         emitTextur = Texture2D(emitTexturPath, texturMipmap)
-        emitTextur.setTexParams(emitTexParams[0], emitTexParams[2], emitTexParams[3], emitTexParams[4])
+        emitTextur.setTexParams(emitTexParamWrapS, emitTexParamWrapT, emitTexParamMinFilter, emitTexParamMagFilter)
         specTextur = Texture2D(specTexturPath, texturMipmap)
-        specTextur.setTexParams(specTexParams[0], specTexParams[2], specTexParams[3], specTexParams[4])
+        specTextur.setTexParams(specTexParamWrapS, specTexParamWrapT, specTexParamMinFilter, specTexParamMagFilter)
         // Erstellen des Materials mit den erstellten Texturen
         objectMaterial = Material(diffTextur, emitTextur, specTextur, materialShininess, materialTcMultiplier)
         // Erstellen der Meshes
