@@ -1,5 +1,6 @@
 package cga.exercise.game
 
+import cga.exercise.components.camera.ProjectCamera
 import cga.exercise.components.camera.TronCamera
 import cga.exercise.components.geometry.*
 import cga.exercise.components.light.PointLight
@@ -25,11 +26,16 @@ import kotlin.math.sin
 class Scene(private val window: GameWindow) {
     private val staticShader: ShaderProgram
     val cycle:Renderable
-    val cam:TronCamera
-    var pointLight: PointLight
+    val cam: ProjectCamera
+    //var pointLight: PointLight
     var spotLight: SpotLight
-
+    val sonne : PointLight
+    val baum_01 : Renderable
     val loadedObjectGround : loadedObject
+
+    var old_mouse_pos_x : Double
+    var old_mouse_pos_y : Double
+
 
     //scene setup
     init {
@@ -53,16 +59,27 @@ class Scene(private val window: GameWindow) {
         loadedObjectGround = loadedObject("assets/models/ground.obj", "assets/textures/ground_diff.png", "assets/textures/ground_emit.png", "assets/textures/ground_spec.png")
 
         //Cam Setup
-        cam= TronCamera(cycle)
+        cam= ProjectCamera(cycle)
         cam.rotateLocal(Math.toRadians(-20f),0f,0f)
         cam.translateLocal(Vector3f(0f,0f,4f))
 
         //licht und so
-        pointLight=PointLight(Vector3f(0f, 1f, 0f), Vector3f(1.0f, 0.5f, 0.1f), Vector3f(0.2f,0.9f,0.8f),cycle)
+        //pointLight=PointLight(Vector3f(0f, 1f, 0f), Vector3f(1.0f, 0.5f, 0.1f), Vector3f(1f,1f,1f),cycle)
 
         spotLight= SpotLight(Vector3f(0f,1f,0f), Vector3f(0.5f, 0.05f, 0.01f),Vector3f(0.5f,0.5f,1f), cycle, 15f,20f)
         spotLight.rotateLocal(Math.toRadians(-20f),0f,0f)
 
+        //Sonne
+        sonne = PointLight(org.joml.Vector3f(0f, 9f, 0f), Vector3f(1.0f, 0.5f, 0.1f), Vector3f(1f,1f,0f), null)
+
+        // Baum
+        baum_01 = ModelLoader.loadModel("assets/Tree/Tree.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        baum_01.translateGlobal(Vector3f(-2f, 0f, 0f))
+        baum_01.rotateLocal(0f, 0f, Math.toRadians(-90f))
+
+        // Maus
+        old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
+        old_mouse_pos_y = MouseInfo.getPointerInfo().location.getY()
     }
 
     /* ***********************************************************
@@ -74,35 +91,28 @@ class Scene(private val window: GameWindow) {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
         staticShader.use()
         cam.bind(staticShader)
-        pointLight.light_color = Vector3f(((sin(t-1f)+1f)/2f),( sin(t-0.5f)+1f)/2f, (sin(t)+1f)/2f)
-        pointLight.bind(staticShader,"point")
+        //pointLight.bind(staticShader,"point")
         spotLight.bind(staticShader, "spot", cam.getCalculateViewMatrix())
-        staticShader.setUniform("colo", Vector3f(0f, 1f, 0f))
+        sonne.bind(staticShader, "point")
+        staticShader.setUniform("colo", Vector3f(1f, 1f, 1f))
         loadedObjectGround.renderableObject.render(staticShader)
-        staticShader.setUniform("colo", Vector3f(((sin(t-1f)+1f)/2f),( sin(t-0.5f)+1f)/2f, (sin(t)+1f)/2f))
         cycle.render(staticShader)
+        baum_01.render(staticShader)
     }
 
     fun update(dt: Float, t: Float) {
         if (window.getKeyState(GLFW_KEY_W)) {
-
+            cycle.translateLocal(Vector3f(0.0f, 0f, -5f*dt))
         }
         if (window.getKeyState(GLFW_KEY_S)) {
-
+            cycle.translateLocal(Vector3f(0.0f, 0f, 5f*dt))
         }
         if (window.getKeyState(GLFW_KEY_A)&&(window.getKeyState(GLFW_KEY_W)||window.getKeyState(GLFW_KEY_S))) {
-
+            cycle.rotateLocal(0f,Math.toRadians(20f*dt),0f)
         }
         if (window.getKeyState(GLFW_KEY_D)&&(window.getKeyState(GLFW_KEY_W)||window.getKeyState(GLFW_KEY_S))) {
-
+            cycle.rotateLocal(0f,Math.toRadians(-20f*dt),0f)
         }
-        if (window.getKeyState(GLFW_KEY_SPACE)) {
-
-        }
-        else{
-
-        }
-
     }
 
     /* ***********************************************************
@@ -113,7 +123,8 @@ class Scene(private val window: GameWindow) {
 
     fun onMouseMove(xpos: Double, ypos: Double)
     {
-
+        cam.rotateAroundPoint(0.0f, (xpos-old_mouse_pos_x).toFloat()*0.002f,0f, Vector3f(0f))
+        old_mouse_pos_x = xpos
     }
 
     fun cleanup() {}
