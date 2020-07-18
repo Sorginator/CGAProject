@@ -1,5 +1,6 @@
 package cga.exercise.game
 
+import cga.exercise.components.`object`.Baum
 import cga.exercise.components.camera.ProjectCamera
 import cga.exercise.components.camera.TronCamera
 import cga.exercise.components.geometry.*
@@ -31,7 +32,7 @@ class Scene(private val window: GameWindow) {
     var spotLight: SpotLight
     val sonne : PointLight
     val loadedObjectGround : loadedObject
-    val baum_01 : Renderable
+    val baum_01 : Baum
     val spinne : Renderable
 
     var old_mouse_pos_x : Double
@@ -74,9 +75,8 @@ class Scene(private val window: GameWindow) {
         sonne = PointLight(org.joml.Vector3f(0f, 9f, 0f), Vector3f(1.0f, 0.5f, 0.1f), Vector3f(1f,1f,0f), null)
 
         // Baum
-        baum_01 = ModelLoader.loadModel("assets/complex objects/Tree/Tree.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        baum_01.translateGlobal(Vector3f(-2f, 0f, 0f))
-        baum_01.rotateLocal(0f, 0f, Math.toRadians(-90f))
+        baum_01 = Baum(-2f, 0f, 0f)
+        baum_01.animationSpeed = 0.5f
 
         // Spinne
         spinne = ModelLoader.loadModel("assets/complex objects/Spinne/Only_Spider_with_Animations_Export.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
@@ -106,14 +106,17 @@ class Scene(private val window: GameWindow) {
         cycle.render(staticShader)
         baum_01.render(staticShader)
         spinne.render(staticShader)
+        baum_01.animate()
     }
 
     fun update(dt: Float, t: Float) {
         if (window.getKeyState(GLFW_KEY_W)) {
             cycle.translateLocal(Vector3f(0.0f, 0f, -5f*dt))
+            baum_01.startAnimation()
         }
         if (window.getKeyState(GLFW_KEY_S)) {
             cycle.translateLocal(Vector3f(0.0f, 0f, 5f*dt))
+            baum_01.resetAnimation()
         }
         if (window.getKeyState(GLFW_KEY_A)&&(window.getKeyState(GLFW_KEY_W)||window.getKeyState(GLFW_KEY_S))) {
             cycle.rotateLocal(0f,Math.toRadians(20f*dt),0f)
