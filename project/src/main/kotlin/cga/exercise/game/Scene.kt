@@ -40,7 +40,8 @@ class Scene(private val window: GameWindow) {
     val ente_w: Renderable
     val castle: Renderable
     val gras: Renderable
-    val stein: Renderable
+    val haus: Renderable
+    val vogel: Renderable
 
     var old_mouse_pos_x : Double
     var old_mouse_pos_y : Double
@@ -125,11 +126,16 @@ class Scene(private val window: GameWindow) {
         gras.translateGlobal(Vector3f(2f, 0f, 3f))
         gras.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
 
-        // Stein
-        stein = ModelLoader.loadModel("assets/complex objects/Farmhouse/farmhouse_obj.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        stein.translateGlobal(Vector3f(2f, 0f, 10f))
-        stein.scaleLocal(Vector3f(0.2f, 0.2f, 0.2f))
-        stein.rotateLocal(0f, 0f, Math.toRadians(-90f))
+        // Haus
+        haus = ModelLoader.loadModel("assets/complex objects/Farmhouse/farmhouse_obj.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        haus.translateGlobal(Vector3f(2f, 0f, 10f))
+        haus.scaleLocal(Vector3f(0.2f, 0.2f, 0.2f))
+        haus.rotateLocal(0f, 0f, Math.toRadians(-90f))
+
+        // Vogel
+        vogel = ModelLoader.loadModel("assets/complex objects/Bird/12214_Bird_v1max_l3.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        vogel.translateGlobal(Vector3f(4f, 0f, 5f))
+        vogel.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
 
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
@@ -160,7 +166,8 @@ class Scene(private val window: GameWindow) {
         ente_w.render(staticShader)
         gras.render(staticShader)
         //castle.render(staticShader)
-        stein.render(staticShader)
+        haus.render(staticShader)
+        vogel.render(staticShader)
     }
 
     fun update(dt: Float, t: Float) {
