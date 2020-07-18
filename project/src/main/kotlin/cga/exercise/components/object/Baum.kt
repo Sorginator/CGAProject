@@ -6,7 +6,7 @@ import cga.framework.ModelLoader
 import org.joml.Math
 import org.joml.Vector3f
 
-class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float = 0f, rotZ: Float = 0f, variant: Int = 0) {
+class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float = 0f, rotZ: Float = 0f) {
 
     val loadedObject: Renderable
     var animate: Boolean = false
@@ -15,10 +15,7 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
 
 
     init {
-        if (variant == 0)
-            loadedObject = ModelLoader.loadModel("assets/complex objects/Tree02/Tree.obj",  Math.toRadians(-90f + rotX), Math.toRadians(90f + rotY), Math.toRadians(-90f + rotZ))?: throw IllegalArgumentException("Could not load the model")
-        else
-            loadedObject = ModelLoader.loadModel("assets/complex objects/Tree02/Tree.obj",  Math.toRadians(-90f + rotX), Math.toRadians(90f + rotY), Math.toRadians(-90f + rotZ))?: throw IllegalArgumentException("Could not load the model")
+        loadedObject = ModelLoader.loadModel("assets/complex objects/Tree02/Tree.obj",  Math.toRadians(-90f + rotX), Math.toRadians(90f + rotY), Math.toRadians(-90f + rotZ))?: throw IllegalArgumentException("Could not load the model")
         loadedObject.translateGlobal(Vector3f(posX, posY, posZ))
     }
 

@@ -34,6 +34,13 @@ class Scene(private val window: GameWindow) {
     val loadedObjectGround : loadedObject
     val baum_01 : Baum
     val spinne : Renderable
+    val cat: Renderable
+    val rose: Renderable
+    val ente: Renderable
+    val ente_w: Renderable
+    val castle: Renderable
+    val gras: Renderable
+    val stein: Renderable
 
     var old_mouse_pos_x : Double
     var old_mouse_pos_y : Double
@@ -81,8 +88,48 @@ class Scene(private val window: GameWindow) {
         // Spinne
         spinne = ModelLoader.loadModel("assets/complex objects/Spinne/Only_Spider_with_Animations_Export.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
         spinne.translateGlobal(Vector3f(2f, 0f, 0f))
-        spinne.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
+        spinne.scaleLocal(Vector3f(0.005f, 0.005f, 0.005f))
         spinne.rotateLocal(0f, 0f, Math.toRadians(-90f))
+
+        // Katze
+        cat = ModelLoader.loadModel("assets/complex objects/cat/12221_Cat_v1_l3.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        cat.translateGlobal(Vector3f(2f, 0f, 1f))
+        cat.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
+        cat.rotateLocal(0f, Math.toRadians(-90f), 0f)
+
+        // Rose
+        rose = ModelLoader.loadModel("assets/complex objects/Rose/rose.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        rose.translateGlobal(Vector3f(2f, 0f, 2f))
+        rose.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
+        rose.rotateLocal(0f, 0f, Math.toRadians(-90f))
+
+        // Ente
+        ente = ModelLoader.loadModel("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        ente.translateGlobal(Vector3f(2f, 0f, 3f))
+        ente.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
+        ente.rotateLocal(0f, Math.toRadians(-90f), 0f)
+
+        // Ente Weiblich
+        ente_w = ModelLoader.loadModel("assets/complex objects/Nagnag_w/12249_Bird_v1_L2.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        ente_w.translateGlobal(Vector3f(3f, 0f, 3f))
+        ente_w.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
+        ente_w.rotateLocal(0f, Math.toRadians(-90f), 0f)
+
+        // Castle
+        castle = ModelLoader.loadModel("assets/complex objects/Castle/Castle OBJ.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        castle.translateGlobal(Vector3f(2f, 0f, -5f))
+        castle.rotateLocal(0f, 0f, Math.toRadians(-90f))
+
+        // Gras
+        gras = ModelLoader.loadModel("assets/complex objects/gras/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        gras.translateGlobal(Vector3f(2f, 0f, 3f))
+        gras.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
+
+        // Stein
+        stein = ModelLoader.loadModel("assets/complex objects/Farmhouse/farmhouse_obj.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        stein.translateGlobal(Vector3f(2f, 0f, 10f))
+        stein.scaleLocal(Vector3f(0.2f, 0.2f, 0.2f))
+        stein.rotateLocal(0f, 0f, Math.toRadians(-90f))
 
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
@@ -107,16 +154,23 @@ class Scene(private val window: GameWindow) {
         baum_01.render(staticShader)
         spinne.render(staticShader)
         baum_01.animate()
+        cat.render(staticShader)
+        rose.render(staticShader)
+        ente.render(staticShader)
+        ente_w.render(staticShader)
+        gras.render(staticShader)
+        //castle.render(staticShader)
+        stein.render(staticShader)
     }
 
     fun update(dt: Float, t: Float) {
         if (window.getKeyState(GLFW_KEY_W)) {
             cycle.translateLocal(Vector3f(0.0f, 0f, -5f*dt))
-            baum_01.startAnimation()
+            //baum_01.startAnimation()
         }
         if (window.getKeyState(GLFW_KEY_S)) {
             cycle.translateLocal(Vector3f(0.0f, 0f, 5f*dt))
-            baum_01.resetAnimation()
+            //baum_01.resetAnimation()
         }
         if (window.getKeyState(GLFW_KEY_A)&&(window.getKeyState(GLFW_KEY_W)||window.getKeyState(GLFW_KEY_S))) {
             cycle.rotateLocal(0f,Math.toRadians(20f*dt),0f)
