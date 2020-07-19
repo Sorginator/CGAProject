@@ -70,6 +70,6 @@ void main(){
     res += point_color * 0.1f * diff_c;
     //Lichter
     res += phong(N, LP, V, diff_c, spec_c, shininess) * LIP;
-    res += phong(N, LS, V, diff_c, spec_c, shininess) * LIS;
+    //res += phong(N, LS, V, diff_c, spec_c, shininess) * LIS;
     color = vec4(res, 1.0f);
 }

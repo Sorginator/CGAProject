@@ -50,7 +50,7 @@ class Scene(private val window: GameWindow) {
     //scene setup
     init {
         // Shader initialisieren
-        staticShader = ShaderProgram("assets/shaders/tron_vert.glsl", "assets/shaders/tron_frag.glsl")
+        staticShader = ShaderProgram("assets/shaders/project_vert.glsl", "assets/shaders/project_frag.glsl")
 
         glEnable(GL_CULL_FACE)
         glFrontFace(GL_CCW)
