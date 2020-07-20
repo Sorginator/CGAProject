@@ -43,6 +43,7 @@ class Scene(private val window: GameWindow) {
     val haus: Renderable
     val vogel: Renderable
     val beagle: Renderable
+    val haus2: Renderable
 
     var old_mouse_pos_x : Double
     var old_mouse_pos_y : Double
@@ -138,10 +139,15 @@ class Scene(private val window: GameWindow) {
         vogel.translateGlobal(Vector3f(4f, 0f, 5f))
         vogel.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
 
-        // Baum
+        // Hund
         beagle = ModelLoader.loadModel("assets/complex objects/Beagle/13041_Beagle_v1_L1.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
         beagle.translateGlobal(Vector3f(4f, 0f, 5f))
         beagle.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
+
+        // Haus 2
+        haus2 = ModelLoader.loadModel("assets/complex objects/cottage2/abandoned_cottage.obj",  Math.toRadians(-90f), Math.toRadians(90f), Math.toRadians(-90f))?: throw IllegalArgumentException("Could not load the model")
+        haus2.translateGlobal(Vector3f(15f, 0f, 1f))
+        haus2.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
 
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
@@ -175,6 +181,7 @@ class Scene(private val window: GameWindow) {
         haus.render(staticShader)
         vogel.render(staticShader)
         beagle.render(staticShader)
+        haus2.render(staticShader)
     }
 
     fun update(dt: Float, t: Float) {
