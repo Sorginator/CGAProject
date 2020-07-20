@@ -42,6 +42,7 @@ class Scene(private val window: GameWindow) {
     val gras: Renderable
     val haus: Renderable
     val vogel: Renderable
+    val baum_02: Renderable
 
     var old_mouse_pos_x : Double
     var old_mouse_pos_y : Double
@@ -83,7 +84,7 @@ class Scene(private val window: GameWindow) {
         sonne = PointLight(org.joml.Vector3f(0f, 9f, 0f), Vector3f(1.0f, 0.5f, 0.1f), Vector3f(1f,1f,0f), null)
 
         // Baum
-        baum_01 = Baum(-2f, 0f, 0f)
+        baum_01 = Baum(-2f, 0f, 0f, 0f, 0f, 0f, 0)
         baum_01.animationSpeed = 0.5f
 
         // Spinne
@@ -137,6 +138,10 @@ class Scene(private val window: GameWindow) {
         vogel.translateGlobal(Vector3f(4f, 0f, 5f))
         vogel.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
 
+        // Baum
+        baum_02 = ModelLoader.loadModel("assets/complex objects/Tree/Tree.obj",  Math.toRadians(-90f), Math.toRadians(90f), Math.toRadians(-90f))?: throw IllegalArgumentException("Could not load the model")
+        baum_02.translateGlobal(Vector3f(4f, 0f, 5f))
+
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
         old_mouse_pos_y = MouseInfo.getPointerInfo().location.getY()
@@ -168,6 +173,7 @@ class Scene(private val window: GameWindow) {
         //castle.render(staticShader)
         haus.render(staticShader)
         vogel.render(staticShader)
+        baum_02.render(staticShader)
     }
 
     fun update(dt: Float, t: Float) {
