@@ -1,6 +1,7 @@
 package cga.exercise.game
 
 import cga.exercise.components.`object`.Baum
+import cga.exercise.components.`object`.GrasGround
 import cga.exercise.components.camera.ProjectCamera
 import cga.exercise.components.camera.TronCamera
 import cga.exercise.components.geometry.*
@@ -44,6 +45,8 @@ class Scene(private val window: GameWindow) {
     val vogel: Renderable
     val beagle: Renderable
     val haus2: Renderable
+    val gras2: Renderable
+    val ground: GrasGround
 
     var old_mouse_pos_x : Double
     var old_mouse_pos_y : Double
@@ -125,8 +128,13 @@ class Scene(private val window: GameWindow) {
 
         // Gras
         gras = ModelLoader.loadModel("assets/complex objects/gras/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        gras.translateGlobal(Vector3f(2f, 0f, 3f))
+        gras.translateGlobal(Vector3f(2f, 0f - 0.1f, 3f))
         gras.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
+
+        // Gras
+        gras2 = ModelLoader.loadModel("assets/complex objects/gras/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        gras2.translateGlobal(Vector3f(2f /*+ 3f*/, 0f, 3f /*+ 3f*/))
+        gras2.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
 
         // Haus
         haus = ModelLoader.loadModel("assets/complex objects/Farmhouse/farmhouse_obj.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
@@ -149,9 +157,12 @@ class Scene(private val window: GameWindow) {
         haus2.translateGlobal(Vector3f(15f, 0f, 1f))
         haus2.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
 
+        ground = GrasGround(8, 8, -4f * 3, -4f * 3)
+
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
         old_mouse_pos_y = MouseInfo.getPointerInfo().location.getY()
+
     }
 
     /* ***********************************************************
@@ -167,7 +178,7 @@ class Scene(private val window: GameWindow) {
         spotLight.bind(staticShader, "spot", cam.getCalculateViewMatrix())
         sonne.bind(staticShader, "point")
         staticShader.setUniform("colo", Vector3f(1f, 1f, 1f))
-        loadedObjectGround.renderableObject.render(staticShader)
+        //loadedObjectGround.renderableObject.render(staticShader)
         cycle.render(staticShader)
         baum_01.render(staticShader)
         spinne.render(staticShader)
@@ -176,12 +187,14 @@ class Scene(private val window: GameWindow) {
         rose.render(staticShader)
         ente.render(staticShader)
         ente_w.render(staticShader)
-        gras.render(staticShader)
+        //gras.render(staticShader)
         //castle.render(staticShader)
         haus.render(staticShader)
         vogel.render(staticShader)
         beagle.render(staticShader)
         haus2.render(staticShader)
+        //gras2.render(staticShader)
+        ground.render(staticShader)
     }
 
     fun update(dt: Float, t: Float) {
@@ -193,11 +206,11 @@ class Scene(private val window: GameWindow) {
             cycle.translateLocal(Vector3f(0.0f, 0f, 5f*dt))
             //baum_01.resetAnimation()
         }
-        if (window.getKeyState(GLFW_KEY_A)&&(window.getKeyState(GLFW_KEY_W)||window.getKeyState(GLFW_KEY_S))) {
-            cycle.rotateLocal(0f,Math.toRadians(20f*dt),0f)
+        if (window.getKeyState(GLFW_KEY_A)) {
+            cycle.rotateLocal(0f,Math.toRadians(40f*dt),0f)
         }
-        if (window.getKeyState(GLFW_KEY_D)&&(window.getKeyState(GLFW_KEY_W)||window.getKeyState(GLFW_KEY_S))) {
-            cycle.rotateLocal(0f,Math.toRadians(-20f*dt),0f)
+        if (window.getKeyState(GLFW_KEY_D)) {
+            cycle.rotateLocal(0f,Math.toRadians(-40f*dt),0f)
         }
     }
 
