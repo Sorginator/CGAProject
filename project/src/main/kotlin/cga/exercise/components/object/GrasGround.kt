@@ -10,7 +10,8 @@ class GrasGround(var widthX: Int, var widthY: Int, var startX: Float, var startY
     //Breite eines Grasobjektes: 3x3
     //Die Breite wird in Anzahl Objekte angegeben
     val grasObjects: MutableList<Renderable>
-    lateinit var aktGrasObject: Renderable
+    val aktGrasObject: Renderable
+    lateinit var aktGrasObjectCopy: Renderable
 
     init {
         grasObjects = mutableListOf()
@@ -21,13 +22,15 @@ class GrasGround(var widthX: Int, var widthY: Int, var startX: Float, var startY
         if (widthY < 1) {
             widthY = 1
         }
+        aktGrasObject = ModelLoader.loadModel("assets/complex objects/gras/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
         //Erstellen des Grasteppichs in der angegebenen Größenordnung
         for (x in 1..widthX) {
             for (y in 1..widthY){
-                aktGrasObject = ModelLoader.loadModel("assets/complex objects/gras/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-                aktGrasObject.translateGlobal(Vector3f(2f + (x*3f - 3f) + startX, 0f - 0.1f, 3f + (y*3f - 3f) + startY))
-                aktGrasObject.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
-                grasObjects.add(aktGrasObject)
+                //Erstellen eines neuen Grasabschnitts
+                aktGrasObjectCopy = Renderable(aktGrasObject.meshes)
+                aktGrasObjectCopy.translateGlobal(Vector3f(2f + (x*3f - 3f) + startX, 0f - 0.1f, 3f + (y*3f - 3f) + startY))
+                aktGrasObjectCopy.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
+                grasObjects.add(aktGrasObjectCopy)
             }
         }
     }
