@@ -2,6 +2,7 @@ package cga.exercise.game
 
 import cga.exercise.components.`object`.Baum
 import cga.exercise.components.`object`.GrasGround
+import cga.exercise.components.`object`.texturedObject
 import cga.exercise.components.camera.ProjectCamera
 import cga.exercise.components.camera.TronCamera
 import cga.exercise.components.geometry.*
@@ -33,20 +34,20 @@ class Scene(private val window: GameWindow) {
     var spotLight: SpotLight
     val sonne : PointLight
     val loadedObjectGround : loadedObject
+    val spinne : texturedObject
+    val cat: texturedObject
+    val ente: texturedObject
+    val ente_w: texturedObject
+    val vogel: texturedObject
+    val beagle: texturedObject
+    val haus2: texturedObject
+    val haus: texturedObject
+    val castle: texturedObject
+
     val baum_01 : Baum
-    val spinne : Renderable
-    val cat: Renderable
     val rose: Renderable
-    val ente: Renderable
-    val ente_w: Renderable
-    val castle: Renderable
-    val gras: Renderable
-    val haus: Renderable
-    val vogel: Renderable
-    val beagle: Renderable
-    val haus2: Renderable
-    val gras2: Renderable
-    val ground: GrasGround
+    //val ground: GrasGround
+    val gras: texturedObject
 
     var old_mouse_pos_x : Double
     var old_mouse_pos_y : Double
@@ -92,16 +93,31 @@ class Scene(private val window: GameWindow) {
         baum_01.animationSpeed = 0.5f
 
         // Spinne
-        spinne = ModelLoader.loadModel("assets/complex objects/Spinne/Only_Spider_with_Animations_Export.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        spinne.translateGlobal(Vector3f(2f, 0f, 0f))
-        spinne.scaleLocal(Vector3f(0.005f, 0.005f, 0.005f))
-        spinne.rotateLocal(0f, 0f, Math.toRadians(-90f))
+        spinne = texturedObject("assets/complex objects/Spinne/Only_Spider_with_Animations_Export.obj", 2f, 0f, 0f, -90f, 90f, -90f, 0.005f, 0.005f, 0.005f)
 
         // Katze
-        cat = ModelLoader.loadModel("assets/complex objects/cat/12221_Cat_v1_l3.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        cat.translateGlobal(Vector3f(2f, 0f, 1f))
-        cat.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
-        cat.rotateLocal(0f, Math.toRadians(-90f), 0f)
+        cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", 2f, 0f, 1f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+
+        // Ente
+        ente = texturedObject("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj", 2f, 0f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+
+        // Ente Weiblich
+        ente_w = texturedObject("assets/complex objects/Nagnag_w/12249_Bird_v1_L2.obj", 3f, 0f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+
+        // Vogel
+        vogel = texturedObject("assets/complex objects/Bird/12214_Bird_v1max_l3.obj", 4f, 0f, 5f, -90f, 90f, 0f, 0.01f, 0.01f, 0.01f)
+
+        // Hund
+        beagle = texturedObject("assets/complex objects/Beagle/13041_Beagle_v1_L1.obj", 4f, 0f, 5f, -90f, 90f, 0f, 0.01f, 0.01f, 0.01f)
+
+        // Castle
+        castle = texturedObject("assets/complex objects/Castle/Castle OBJ.obj", 2f, 0f, -5f, -90f, 90f, -90f)
+
+        // Haus
+        haus = texturedObject("assets/complex objects/Farmhouse/farmhouse_obj.obj", 2f, 0f, 20f, -90f, 90f, -90f, 0.2f, 0.2f, 0.2f)
+
+        // Haus 2
+        haus2 = texturedObject("assets/complex objects/cottage2/abandoned_cottage.obj", 15f, 0f, 15f, -90f, 90f, -90f, 0.01f, 0.01f, 0.01f)
 
         // Rose
         rose = ModelLoader.loadModel("assets/complex objects/Rose/rose.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
@@ -109,55 +125,11 @@ class Scene(private val window: GameWindow) {
         rose.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
         rose.rotateLocal(0f, 0f, Math.toRadians(-90f))
 
-        // Ente
-        ente = ModelLoader.loadModel("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        ente.translateGlobal(Vector3f(2f, 0f, 3f))
-        ente.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
-        ente.rotateLocal(0f, Math.toRadians(-90f), 0f)
-
-        // Ente Weiblich
-        ente_w = ModelLoader.loadModel("assets/complex objects/Nagnag_w/12249_Bird_v1_L2.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        ente_w.translateGlobal(Vector3f(3f, 0f, 3f))
-        ente_w.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
-        ente_w.rotateLocal(0f, Math.toRadians(-90f), 0f)
-
-        // Castle
-        castle = ModelLoader.loadModel("assets/complex objects/Castle/Castle OBJ.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        castle.translateGlobal(Vector3f(2f, 0f, -5f))
-        castle.rotateLocal(0f, 0f, Math.toRadians(-90f))
-
         // Gras
-        gras = ModelLoader.loadModel("assets/complex objects/gras/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        gras.translateGlobal(Vector3f(2f, 0f - 0.1f, 3f))
-        gras.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
-
-        // Gras
-        gras2 = ModelLoader.loadModel("assets/complex objects/gras/10450_Rectangular_Grass_Patch_v1_iterations-2.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        gras2.translateGlobal(Vector3f(2f /*+ 3f*/, 0f, 3f /*+ 3f*/))
-        gras2.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
-
-        // Haus
-        haus = ModelLoader.loadModel("assets/complex objects/Farmhouse/farmhouse_obj.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        haus.translateGlobal(Vector3f(2f, 0f, 10f))
-        haus.scaleLocal(Vector3f(0.2f, 0.2f, 0.2f))
-        haus.rotateLocal(0f, 0f, Math.toRadians(-90f))
-
-        // Vogel
-        vogel = ModelLoader.loadModel("assets/complex objects/Bird/12214_Bird_v1max_l3.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        vogel.translateGlobal(Vector3f(4f, 0f, 5f))
-        vogel.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
-
-        // Hund
-        beagle = ModelLoader.loadModel("assets/complex objects/Beagle/13041_Beagle_v1_L1.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        beagle.translateGlobal(Vector3f(4f, 0f, 5f))
-        beagle.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
-
-        // Haus 2
-        haus2 = ModelLoader.loadModel("assets/complex objects/cottage2/abandoned_cottage.obj",  Math.toRadians(-90f), Math.toRadians(90f), Math.toRadians(-90f))?: throw IllegalArgumentException("Could not load the model")
-        haus2.translateGlobal(Vector3f(15f, 0f, 1f))
-        haus2.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
-
-        ground = GrasGround(8, 8, -4f * 3, -4f * 3)
+        // 1 Objekt mit gestreckter Textur
+        gras = texturedObject("assets/complex objects/gras/10450_Rectangular_Grass_Patch_v1_iterations-2.obj", 0f, 0f, 0f, -90f, 90f, 0f, 0.5f, 0.01f, 0.5f)
+        // Objekte aneiander gereiht
+        //ground = GrasGround(20, 20, -10f * 3, -10f * 3)
 
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
@@ -178,7 +150,6 @@ class Scene(private val window: GameWindow) {
         spotLight.bind(staticShader, "spot", cam.getCalculateViewMatrix())
         sonne.bind(staticShader, "point")
         staticShader.setUniform("colo", Vector3f(1f, 1f, 1f))
-        //loadedObjectGround.renderableObject.render(staticShader)
         cycle.render(staticShader)
         baum_01.render(staticShader)
         spinne.render(staticShader)
@@ -187,14 +158,13 @@ class Scene(private val window: GameWindow) {
         rose.render(staticShader)
         ente.render(staticShader)
         ente_w.render(staticShader)
-        //gras.render(staticShader)
         //castle.render(staticShader)
         haus.render(staticShader)
         vogel.render(staticShader)
         beagle.render(staticShader)
         haus2.render(staticShader)
-        //gras2.render(staticShader)
-        ground.render(staticShader)
+        //ground.render(staticShader)
+        gras.render(staticShader)
     }
 
     fun update(dt: Float, t: Float) {
