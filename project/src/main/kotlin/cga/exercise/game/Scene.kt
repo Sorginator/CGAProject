@@ -117,7 +117,7 @@ class Scene(private val window: GameWindow) {
         haus = texturedObject("assets/complex objects/Farmhouse/farmhouse_obj.obj", 2f, 0f, 20f, -90f, 90f, -90f, 0.2f, 0.2f, 0.2f)
 
         // Haus 2
-        haus2 = texturedObject("assets/complex objects/cottage2/abandoned_cottage.obj", 15f, 0f, 15f, -90f, 90f, -90f, 0.01f, 0.01f, 0.01f)
+        haus2 = texturedObject("assets/complex objects/cottage2/abandoned_cottage.obj", 15f, 0f, 20f, 0f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
         // Rose
         rose = ModelLoader.loadModel("assets/complex objects/Rose/rose.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
