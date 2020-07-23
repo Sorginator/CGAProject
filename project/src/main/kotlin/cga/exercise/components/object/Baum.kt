@@ -6,12 +6,17 @@ import cga.framework.ModelLoader
 import org.joml.Math
 import org.joml.Vector3f
 
-class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float = 0f, rotZ: Float = 0f, variant: Int = 0) {
+class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float = 0f, rotZ: Float = 0f, variant: Int = 0, val growable: Boolean= false, growingAtInit: Boolean = false) {
 
-    val loadedObject: Renderable
+    var loadedObject: Renderable
     var animate: Boolean = false
+    var growingActive: Boolean = false
+    var fallingActive: Boolean = false
     var fallingState: Float = 0f
-    var animationSpeed: Float = 1f
+    var animationSpeed: Float = 0.5f
+    var growingState: Float
+    var timeTillNextAnimState: Float
+    var growingStateMax: Float
 
 
     init {
@@ -20,26 +25,42 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
         else
             loadedObject = ModelLoader.loadModel("assets/complex objects/Tree/Tree.obj",  Math.toRadians(-90f + rotX), Math.toRadians(90f + rotY), Math.toRadians(-90f + rotZ))?: throw IllegalArgumentException("Could not load the model")
         loadedObject.translateGlobal(Vector3f(posX, posY, posZ))
+        growingState = 0f
+        timeTillNextAnimState = 0f
+        growingStateMax = 2f
+        if (growable) {
+            loadedObject.scaleLocal(Vector3f(0.1f, 0.1f, 0.1f))
+            if (growingAtInit) {
+                growingActive = true
+                animate = true
+            }
+        }
     }
 
     fun render(shader: ShaderProgram) {
         loadedObject.render(shader)
     }
 
-    fun animate() {
+    fun animate(timeDifference: Float) {
         if (animate) {
-            anim_falling()
+            if (timeTillNextAnimState > 0.1) {
+                if (fallingActive)
+                    anim_falling()
+                else if (growingActive)
+                    grow(timeDifference)
+            }
+            timeTillNextAnimState += timeDifference
         }
     }
 
-    fun resetAnimation() {
+    fun resetFalling() {
         animate = false
         loadedObject.rotateLocal(0f, 0f, Math.toRadians(fallingState))
         loadedObject.translateGlobal(Vector3f(0f, -0.2f / 90 * fallingState, 0f))
         fallingState = 0f
     }
 
-    fun stopAnimation() {
+    fun pauseAnimation() {
         animate = false
     }
 
@@ -54,6 +75,14 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
             loadedObject.translateGlobal(Vector3f(0f, 0.2f / 90 * animationSpeed, 0f))
         } else {
             animate = false
+        }
+    }
+
+    fun grow(timeDifference: Float) {
+        if (growingState < growingStateMax) {
+            growingState += (timeDifference * animationSpeed)
+            loadedObject.scaleLocal(Vector3f(1f + 0.01f * animationSpeed, 1f + 0.01f * animationSpeed, 1f + 0.01f * animationSpeed))
+            timeTillNextAnimState = 0f
         }
     }
 }

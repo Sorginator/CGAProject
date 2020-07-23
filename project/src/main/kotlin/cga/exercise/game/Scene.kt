@@ -45,6 +45,7 @@ class Scene(private val window: GameWindow) {
     val castle: texturedObject
 
     val baum_01 : Baum
+    val baum_02 : Baum
     val rose: Renderable
     //val ground: GrasGround
     val gras: texturedObject
@@ -89,8 +90,8 @@ class Scene(private val window: GameWindow) {
         sonne = PointLight(org.joml.Vector3f(0f, 9f, 0f), Vector3f(1.0f, 0.5f, 0.1f), Vector3f(1f,1f,0f), null)
 
         // Baum
-        baum_01 = Baum(-2f, 0f, 0f, 0f, 0f, 0f, 0)
-        baum_01.animationSpeed = 0.5f
+        baum_01 = Baum(-2f, 0f, 0f, 90f, 0f, 90f, 1, true, true)
+        baum_02 = Baum(-4f, 0f, 0f, 90f, 0f, 90f, 1, false)
 
         // Spinne
         spinne = texturedObject("assets/complex objects/Spinne/Only_Spider_with_Animations_Export.obj", 2f, 0f, 0f, -90f, 90f, -90f, 0.005f, 0.005f, 0.005f)
@@ -153,7 +154,6 @@ class Scene(private val window: GameWindow) {
         cycle.render(staticShader)
         baum_01.render(staticShader)
         spinne.render(staticShader)
-        baum_01.animate()
         cat.render(staticShader)
         rose.render(staticShader)
         ente.render(staticShader)
@@ -165,6 +165,7 @@ class Scene(private val window: GameWindow) {
         haus2.render(staticShader)
         //ground.render(staticShader)
         gras.render(staticShader)
+        baum_02.render(staticShader)
     }
 
     fun update(dt: Float, t: Float) {
@@ -182,6 +183,7 @@ class Scene(private val window: GameWindow) {
         if (window.getKeyState(GLFW_KEY_D)) {
             cycle.rotateLocal(0f,Math.toRadians(-40f*dt),0f)
         }
+        baum_01.animate(dt)
     }
 
     /* ***********************************************************
