@@ -2,6 +2,7 @@ package cga.exercise.game
 
 import cga.exercise.components.`object`.Baum
 import cga.exercise.components.`object`.GrasGround
+import cga.exercise.components.`object`.Wald
 import cga.exercise.components.`object`.texturedObject
 import cga.exercise.components.camera.ProjectCamera
 import cga.exercise.components.camera.TronCamera
@@ -49,6 +50,8 @@ class Scene(private val window: GameWindow) {
     val rose: Renderable
     //val ground: GrasGround
     val gras: texturedObject
+
+    val wald: Wald
 
     var old_mouse_pos_x : Double
     var old_mouse_pos_y : Double
@@ -132,6 +135,8 @@ class Scene(private val window: GameWindow) {
         // Objekte aneiander gereiht
         //ground = GrasGround(20, 20, -10f * 3, -10f * 3)
 
+        wald = Wald(30, -20f, 20f, -20f, 20f, 2000)
+
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
         old_mouse_pos_y = MouseInfo.getPointerInfo().location.getY()
@@ -166,6 +171,7 @@ class Scene(private val window: GameWindow) {
         //ground.render(staticShader)
         gras.render(staticShader)
         baum_02.render(staticShader)
+        wald.render(staticShader)
     }
 
     fun update(dt: Float, t: Float) {
