@@ -1,27 +1,19 @@
 package cga.exercise.game
 
 import cga.exercise.components.`object`.Baum
-import cga.exercise.components.`object`.GrasGround
 import cga.exercise.components.`object`.Wald
 import cga.exercise.components.`object`.texturedObject
 import cga.exercise.components.camera.ProjectCamera
-import cga.exercise.components.camera.TronCamera
 import cga.exercise.components.geometry.*
 import cga.exercise.components.light.PointLight
 import cga.exercise.components.light.SpotLight
 import cga.exercise.components.shader.ShaderProgram
-import cga.exercise.components.texture.Texture2D
 import cga.framework.*
 import org.joml.Vector3f
 import org.lwjgl.opengl.GL11.*
-import org.lwjgl.opengl.GL30
 import org.joml.Math
-import org.joml.Vector2f
-import org.joml.Vector4f
 import org.lwjgl.glfw.GLFW.*
 import java.awt.MouseInfo
-import java.lang.Math.sin
-import kotlin.math.sin
 
 
 /**
@@ -135,7 +127,7 @@ class Scene(private val window: GameWindow) {
         // Objekte aneiander gereiht
         //ground = GrasGround(20, 20, -10f * 3, -10f * 3)
 
-        wald = Wald(30, -20f, 20f, -20f, 20f, 2000)
+        wald = Wald(30, -20f, -20f, 20f, 20f, 5f)
 
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
@@ -190,6 +182,7 @@ class Scene(private val window: GameWindow) {
             cycle.rotateLocal(0f,Math.toRadians(-40f*dt),0f)
         }
         baum_01.animate(dt)
+        wald.update(dt)
     }
 
     /* ***********************************************************

@@ -2,10 +2,13 @@ package cga.exercise.components.`object`
 
 import cga.exercise.components.shader.ShaderProgram
 import java.util.*
+import kotlin.concurrent.schedule
 import kotlin.concurrent.timerTask
 
-class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val posMaxX: Float, val posMaxY: Float, val timeToNextTree: Long = 5000) {
+class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val posMaxX: Float, val posMaxY: Float, val timeToNextTree: Float = 5f) {
     var Bäume: MutableList<Baum>
+    var timePassed: Float
+
     var blacklistKoords: Array<FloatArray> = arrayOf(
             // X1, x2, z1, z2
             floatArrayOf(-5.5f + 2f, 6.5f + 2f, -5f + 20f, 1.5f + 20f),   //cottage
@@ -15,34 +18,32 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
 
     init {
         Bäume = mutableListOf()
-        baumSetzTimer()
+        timePassed = 0f
     }
 
-    fun baumSetzTimer() {
-        Timer().schedule(timerTask {
+    fun update(timeDifference: Float) {
+        timePassed += timeDifference
+        if (timePassed >= timeToNextTree) {
+            timePassed = 0f
             if (bäumeGesetzt < numberOfTrees) {
-                println("True")
                 bäumeGesetzt += 1
-                println("1")
                 plantTree()
-                println("2")
-                baumSetzTimer()
-                println("3")
             }
-        }, timeToNextTree)
+        }
+        Bäume.forEach { it.animate(timeDifference) }
     }
 
     fun plantTree() {
         var x = (Math.random()*(posMaxX - posMinX) + posMinX).toFloat()
         var y = (Math.random()*(posMaxY-posMinY) + posMinY).toFloat()
         var escape = 0
-        println("4")
-        while (!AreaIsClear(x, y) || escape > 30) {
+        /*while (!AreaIsClear(x, y) && escape < 30) {
             x = (Math.random()*(posMaxX - posMinX) + posMinX).toFloat()
             y = (Math.random()*(posMaxY-posMinY) + posMinY).toFloat()
             escape += 1
             println(escape)
-        }
+        }*/
+        print("Escape: ")
         println(escape)
         if (escape <= 30) {
             val rot = (Math.random()*360).toFloat()
@@ -50,12 +51,7 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
             if (Math.random() > 0.5) {
                 variant = 1
             }
-            val baum = Baum(x, y, 0f, rot, 0f, rot, variant, true, true)
-            Bäume.add(baum)
-            print("X: ")
-            println(x)
-            print("Y: ")
-            println(y)
+            Bäume.add(Baum(x, 0f, y, rot, 0f, rot, variant, true, true))
         }
     }
 
