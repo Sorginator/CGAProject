@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11
 import kotlin.math.absoluteValue
 import kotlin.math.sin
 
-class Renderable(m:MutableList<Mesh>, p: Transformable? = null) :Transformable(p), IRenderable
+open class Renderable(m:MutableList<Mesh>, p: Transformable? = null) :Transformable(p), IRenderable
 {
     val meshes : MutableList<Mesh> = m
 

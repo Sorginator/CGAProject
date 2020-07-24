@@ -71,9 +71,9 @@ class Scene(private val window: GameWindow) {
         loadedObjectGround = loadedObject("assets/models/ground.obj", "assets/textures/ground_diff.png", "assets/textures/ground_emit.png", "assets/textures/ground_spec.png")
 
         //Cam Setup
-        cam= ProjectCamera(cycle)
+        /*cam= ProjectCamera(cycle)
         cam.rotateLocal(Math.toRadians(-20f),0f,0f)
-        cam.translateLocal(Vector3f(0f,0f,4f))
+        cam.translateLocal(Vector3f(0f,0f,4f))*/
 
         //licht und so
         //pointLight=PointLight(Vector3f(0f, 1f, 0f), Vector3f(1.0f, 0.5f, 0.1f), Vector3f(1f,1f,1f),cycle)
@@ -127,7 +127,12 @@ class Scene(private val window: GameWindow) {
         // Objekte aneiander gereiht
         //ground = GrasGround(20, 20, -10f * 3, -10f * 3)
 
-        wald = Wald(30, -20f, -20f, 20f, 20f, 5f)
+        wald = Wald(30, -30f, -30f, 30f, 30f, 5f)
+
+        // Kamera
+        cam= ProjectCamera(ente.loadedObject)
+        cam.rotateLocal(Math.toRadians(-20f),0f,0f)
+        cam.translateLocal(Vector3f(0f,100f,4f))
 
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
@@ -168,18 +173,18 @@ class Scene(private val window: GameWindow) {
 
     fun update(dt: Float, t: Float) {
         if (window.getKeyState(GLFW_KEY_W)) {
-            cycle.translateLocal(Vector3f(0.0f, 0f, -5f*dt))
+            ente.loadedObject.translateLocal(Vector3f(0.0f, 0f, -5f*dt))
             //baum_01.startAnimation()
         }
         if (window.getKeyState(GLFW_KEY_S)) {
-            cycle.translateLocal(Vector3f(0.0f, 0f, 5f*dt))
+            ente.loadedObject.translateLocal(Vector3f(0.0f, 0f, 5f*dt))
             //baum_01.resetAnimation()
         }
         if (window.getKeyState(GLFW_KEY_A)) {
-            cycle.rotateLocal(0f,Math.toRadians(40f*dt),0f)
+            ente.loadedObject.rotateLocal(0f,Math.toRadians(40f*dt),0f)
         }
         if (window.getKeyState(GLFW_KEY_D)) {
-            cycle.rotateLocal(0f,Math.toRadians(-40f*dt),0f)
+            ente.loadedObject.rotateLocal(0f,Math.toRadians(-40f*dt),0f)
         }
         baum_01.animate(dt)
         wald.update(dt)
