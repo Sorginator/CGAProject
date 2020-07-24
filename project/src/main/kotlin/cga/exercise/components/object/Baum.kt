@@ -14,7 +14,7 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
     var growingActive: Boolean = false
     var fallingActive: Boolean = false
     var fallingState: Float = 0f
-    var animationSpeed: Float = 0.5f
+    var animationSpeed: Float = 0.25f
     var growingState: Float
     var timeTillNextAnimState: Float
     var growingStateMax: Float
