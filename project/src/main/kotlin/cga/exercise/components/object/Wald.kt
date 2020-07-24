@@ -1,6 +1,9 @@
 package cga.exercise.components.`object`
 
+import cga.exercise.components.geometry.Mesh
+import cga.exercise.components.geometry.Renderable
 import cga.exercise.components.shader.ShaderProgram
+import cga.framework.ModelLoader
 import java.util.*
 import kotlin.concurrent.schedule
 import kotlin.concurrent.timerTask
@@ -8,6 +11,8 @@ import kotlin.concurrent.timerTask
 class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val posMaxX: Float, val posMaxY: Float, val timeToNextTree: Float = 5f) {
     var Bäume: MutableList<Baum>
     var timePassed: Float
+    val baumMeshes: Array<MutableList<Mesh>>
+
     var blacklistKoords: MutableList<FloatArray> = mutableListOf(
             // X1, x2, z1, z2
             floatArrayOf(-5.5f + 2f, 6.5f + 2f, -5f + 20f, 1.5f + 20f),   //cottage
@@ -18,6 +23,12 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
     init {
         Bäume = mutableListOf()
         timePassed = 0f
+        val loadedBaum0 = ModelLoader.loadModel("assets/complex objects/Tree02/Tree.obj", org.joml.Math.toRadians(-90f), org.joml.Math.toRadians(90f), org.joml.Math.toRadians(-90f))?: throw IllegalArgumentException("Could not load the model")
+        val loadedBaum1 = ModelLoader.loadModel("assets/complex objects/Tree/Tree.obj", org.joml.Math.toRadians(-90f), org.joml.Math.toRadians(90f), org.joml.Math.toRadians(-90f))?: throw IllegalArgumentException("Could not load the model")
+        baumMeshes = arrayOf(
+                loadedBaum0.meshes,
+                loadedBaum1.meshes
+        )
     }
 
     fun update(timeDifference: Float) {
@@ -48,7 +59,7 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
                 variant = 1
             }
             blacklistKoords.add(floatArrayOf(x-0.5f, x+0.5f, y-0.5f, y+0.5f))
-            Bäume.add(Baum(x, 0f, y, rot, 0f, rot, variant, true, true))
+            Bäume.add(Baum(x, 0f, y, rot, 0f, rot, variant, true, true, baumMeshes[variant]))
         }
     }
 

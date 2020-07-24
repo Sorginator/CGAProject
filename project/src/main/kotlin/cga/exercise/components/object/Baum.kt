@@ -1,12 +1,13 @@
 package cga.exercise.components.`object`
 
+import cga.exercise.components.geometry.Mesh
 import cga.exercise.components.geometry.Renderable
 import cga.exercise.components.shader.ShaderProgram
 import cga.framework.ModelLoader
 import org.joml.Math
 import org.joml.Vector3f
 
-class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float = 0f, rotZ: Float = 0f, variant: Int = 0, val growable: Boolean= false, growingAtInit: Boolean = false) {
+class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float = 0f, rotZ: Float = 0f, variant: Int = 0, val growable: Boolean= false, growingAtInit: Boolean = false, meshes: MutableList<Mesh>? = null) {
 
     var loadedObject: Renderable
     var animate: Boolean = false
@@ -20,10 +21,16 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
 
 
     init {
-        if (variant == 0)
-            loadedObject = ModelLoader.loadModel("assets/complex objects/Tree02/Tree.obj",  Math.toRadians(-90f + rotX), Math.toRadians(90f + rotY), Math.toRadians(-90f + rotZ))?: throw IllegalArgumentException("Could not load the model")
-        else
-            loadedObject = ModelLoader.loadModel("assets/complex objects/Tree/Tree.obj",  Math.toRadians(-90f + rotX), Math.toRadians(90f + rotY), Math.toRadians(-90f + rotZ))?: throw IllegalArgumentException("Could not load the model")
+        if (meshes != null) {
+            loadedObject = Renderable(meshes)
+        } else {
+            if (variant == 0)
+                loadedObject = ModelLoader.loadModel("assets/complex objects/Tree02/Tree.obj", Math.toRadians(-90f + rotX), Math.toRadians(90f + rotY), Math.toRadians(-90f + rotZ))
+                        ?: throw IllegalArgumentException("Could not load the model")
+            else
+                loadedObject = ModelLoader.loadModel("assets/complex objects/Tree/Tree.obj", Math.toRadians(-90f + rotX), Math.toRadians(90f + rotY), Math.toRadians(-90f + rotZ))
+                        ?: throw IllegalArgumentException("Could not load the model")
+        }
         loadedObject.translateGlobal(Vector3f(posX, posY, posZ))
         growingState = 0f
         timeTillNextAnimState = 0f
