@@ -8,11 +8,10 @@ import kotlin.concurrent.timerTask
 class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val posMaxX: Float, val posMaxY: Float, val timeToNextTree: Float = 5f) {
     var Bäume: MutableList<Baum>
     var timePassed: Float
-
-    var blacklistKoords: Array<FloatArray> = arrayOf(
+    var blacklistKoords: MutableList<FloatArray> = mutableListOf(
             // X1, x2, z1, z2
             floatArrayOf(-5.5f + 2f, 6.5f + 2f, -5f + 20f, 1.5f + 20f),   //cottage
-            floatArrayOf(-4f + 15f, 6f + 15f, -2.5f + 20f, 2.5f + 20f)      //farmhouse
+            floatArrayOf(-4f + 15f, 6f + 15f, -2.5f + 20f, 2.5f + 20f)
     )
     var bäumeGesetzt = 0
 
@@ -37,20 +36,18 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
         var x = (Math.random()*(posMaxX - posMinX) + posMinX).toFloat()
         var y = (Math.random()*(posMaxY-posMinY) + posMinY).toFloat()
         var escape = 0
-        /*while (!AreaIsClear(x, y) && escape < 30) {
+        while (!AreaIsClear(x, y) && escape < 30) {
             x = (Math.random()*(posMaxX - posMinX) + posMinX).toFloat()
             y = (Math.random()*(posMaxY-posMinY) + posMinY).toFloat()
             escape += 1
-            println(escape)
-        }*/
-        print("Escape: ")
-        println(escape)
+        }
         if (escape <= 30) {
             val rot = (Math.random()*360).toFloat()
             var variant = 0
             if (Math.random() > 0.5) {
                 variant = 1
             }
+            blacklistKoords.add(floatArrayOf(x-0.5f, x+0.5f, y-0.5f, y+0.5f))
             Bäume.add(Baum(x, 0f, y, rot, 0f, rot, variant, true, true))
         }
     }
@@ -62,7 +59,6 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
                 b = false
             }
         }
-        println(b.toString())
         return b
     }
 
