@@ -2,6 +2,7 @@ package cga.exercise.game
 
 import cga.exercise.components.`object`.Baum
 import cga.exercise.components.`object`.Wald
+import cga.exercise.components.`object`.Walkable
 import cga.exercise.components.`object`.texturedObject
 import cga.exercise.components.camera.ProjectCamera
 import cga.exercise.components.geometry.*
@@ -29,7 +30,7 @@ class Scene(private val window: GameWindow) {
     val loadedObjectGround : loadedObject
     val spinne : texturedObject
     val cat: texturedObject
-    val ente: texturedObject
+    val ente: Walkable
     val ente_w: texturedObject
     val vogel: texturedObject
     val beagle: texturedObject
@@ -95,7 +96,9 @@ class Scene(private val window: GameWindow) {
         cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", 2f, 0f, 1f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
         // Ente
-        ente = texturedObject("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj", 2f, 0f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+        ente = Walkable("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj", 2f, 0f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f, true)
+        ente.speedForward= 90f
+        ente.speedBackwards= 90f
 
         // Ente Weiblich
         ente_w = texturedObject("assets/complex objects/Nagnag_w/12249_Bird_v1_L2.obj", 3f, 0f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
@@ -132,7 +135,7 @@ class Scene(private val window: GameWindow) {
         // Kamera
         cam= ProjectCamera(ente.loadedObject)
         cam.rotateLocal(Math.toRadians(-20f),0f,0f)
-        cam.translateLocal(Vector3f(0f,100f,4f))
+        cam.translateLocal(Vector3f(0f,50f,60f))
 
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
@@ -172,7 +175,7 @@ class Scene(private val window: GameWindow) {
     }
 
     fun update(dt: Float, t: Float) {
-        if (window.getKeyState(GLFW_KEY_W)) {
+        /*if (window.getKeyState(GLFW_KEY_W)) {
             ente.loadedObject.translateLocal(Vector3f(0.0f, 0f, -5f*dt))
             //baum_01.startAnimation()
         }
@@ -185,7 +188,8 @@ class Scene(private val window: GameWindow) {
         }
         if (window.getKeyState(GLFW_KEY_D)) {
             ente.loadedObject.rotateLocal(0f,Math.toRadians(-40f*dt),0f)
-        }
+        }*/
+        ente.walk(dt, window)
         baum_01.animate(dt)
         wald.update(dt)
     }
