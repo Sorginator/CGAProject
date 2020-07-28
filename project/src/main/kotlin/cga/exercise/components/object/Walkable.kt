@@ -16,6 +16,7 @@ class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float=
     var speedBackwards: Float = 5f
     var speedRotate: Float = 40f
     var speedPush: Float = 1f
+    
     /*var watschelRichtung: Int = 1
     var watschelRot: Float = 0f
     var letzterWatschler = 0*/
