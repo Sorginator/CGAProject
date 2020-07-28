@@ -14,7 +14,7 @@ open class texturedObject(path: String, posX: Float, posY: Float, posZ: Float, r
         loadedObject.translateGlobal(Vector3f(posX, posY, posZ))
     }
 
-    fun render(shader: ShaderProgram){
+    open fun render(shader: ShaderProgram){
         loadedObject.render(shader)
     }
 }

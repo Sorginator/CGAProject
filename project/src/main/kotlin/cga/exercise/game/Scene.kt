@@ -189,7 +189,7 @@ class Scene(private val window: GameWindow) {
         if (window.getKeyState(GLFW_KEY_D)) {
             ente.loadedObject.rotateLocal(0f,Math.toRadians(-40f*dt),0f)
         }*/
-        ente.walk(dt, window)
+        ente.walk(dt, window, t)
         baum_01.animate(dt)
         wald.update(dt)
     }

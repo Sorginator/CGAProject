@@ -2,6 +2,7 @@ package cga.exercise.components.`object`
 
 import cga.exercise.components.geometry.Mesh
 import cga.exercise.components.geometry.Renderable
+import cga.exercise.components.shader.ShaderProgram
 import cga.framework.GameWindow
 import org.joml.Math
 import org.joml.Vector3f
@@ -15,6 +16,9 @@ class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float=
     var speedBackwards: Float = 5f
     var speedRotate: Float = 40f
     var speedPush: Float = 1f
+    /*var watschelRichtung: Int = 1
+    var watschelRot: Float = 0f
+    var letzterWatschler = 0*/
     init {
         if (horizontalReverse)
             hReverse = -1
@@ -22,7 +26,9 @@ class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float=
             vReverse = -1
     }
 
-    fun walk(timeDifference: Float, window: GameWindow){
+    fun walk(timeDifference: Float, window: GameWindow, time: Float){
+        var isMoving: Boolean = false
+        // Bewegung
         if (window.getKeyState(GLFW.GLFW_KEY_LEFT_SHIFT)) {
             speedPush = 4f
         } else {
@@ -30,9 +36,11 @@ class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float=
         }
         if (window.getKeyState(GLFW.GLFW_KEY_W)) {
             loadedObject.translateLocal(Vector3f(0.0f, 0f, -1f*timeDifference*hReverse*speedForward*speedPush))
+            isMoving = true
         }
         if (window.getKeyState(GLFW.GLFW_KEY_S)) {
             loadedObject.translateLocal(Vector3f(0.0f, 0f, 1f*timeDifference*hReverse*speedBackwards))
+            isMoving = true
         }
         if (window.getKeyState(GLFW.GLFW_KEY_A)) {
             loadedObject.rotateLocal(0f, Math.toRadians(1f*timeDifference*vReverse*speedRotate),0f)
@@ -40,5 +48,32 @@ class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float=
         if (window.getKeyState(GLFW.GLFW_KEY_D)) {
             loadedObject.rotateLocal(0f, Math.toRadians(-1f*timeDifference*vReverse*speedRotate),0f)
         }
+        // Watschelgang
+        /*if (isMoving) {
+            if (watschelRot < 20) {
+                loadedObject.rotateLocal(0f, 0f, Math.toRadians(timeDifference * watschelRichtung * 50 * speedPush))
+                watschelRot += timeDifference * 50 * speedPush
+            } else {
+                watschelRichtung *= -1
+                watschelRot = -20f
+            }
+            letzterWatschler = 0
+        } else {
+            if (watschelRot > 0) {
+                if (letzterWatschler != 1) {
+                    watschelRichtung = -1
+                    loadedObject.rotateLocal(0f, 0f, Math.toRadians(timeDifference * watschelRichtung * 50 * speedPush))
+                    watschelRot += timeDifference * 50 * speedPush
+                    letzterWatschler = -1
+                }
+            } else if (watschelRot < 0) {
+                if (letzterWatschler != -1) {
+                    watschelRichtung = 1
+                    loadedObject.rotateLocal(0f, 0f, Math.toRadians(timeDifference * watschelRichtung * 50 * speedPush))
+                    watschelRot += timeDifference * 50 * speedPush
+                    letzterWatschler = 1
+                }
+            }
+        }*/
     }
 }
