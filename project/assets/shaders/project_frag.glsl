@@ -73,3 +73,39 @@ void main(){
     //res += phong(N, LS, V, diff_c, spec_c, shininess) * LIS;
     color = vec4(res, 1.0f);
 }
+
+/*
+  //Normalisierter Scheißdreck
+    vec3 N = normalize(vertexData.normal);
+    vec3 V = normalize(vertexData.toCamera);
+    float DP1 = length(vertexData.toPointLight1);
+    float DP2 = length(vertexData.toPointLight2);
+    float DP3 = length(vertexData.toPointLight3);
+    float DS = length(vertexData.toSpotLight);
+    vec3 LP1 = vertexData.toPointLight1/DP;
+    vec3 LP2 = vertexData.toPointLight2/DP;
+    vec3 LP3 = vertexData.toPointLight3/DP;
+    vec3 LS = vertexData.toSpotLight/DS;
+    //Farbwerte der Texturen
+    vec3 emit_c = texture(emit_tex, vertexData.texKoords).rgb;
+    vec3 diff_c = texture(diff_tex, vertexData.texKoords).rgb;
+    vec3 spec_c = texture(spec_tex, vertexData.texKoords).rgb;
+    //Ankommende Lichtintensität
+    vec3 LIP1 = point_color1 * attenuation(DP1, point_attenuation1);
+    vec3 LIP2 = point_color2 * attenuation(DP2, point_attenuation2);
+    vec3 LIP3 = point_color3 * attenuation(DP3, point_attenuation3);
+    vec3 LIS = spot_color * attenuation(DP, spot_attenuation) * kegel(spot_inner_cone, spot_outer_cone, LS, spot_direction);
+    //Emmissiver Part
+    vec3 res = emit_c * colo;
+    //Ambient Part
+    res += point_color1 * 0.1f * diff_c;
+    res += point_color2 * 0.1f * diff_c;
+    res += point_color3 * 0.1f * diff_c;
+    //Lichter
+    res += phong(N, LP1, V, diff_c, spec_c, shininess) * LIP1;
+    res += phong(N, LP2, V, diff_c, spec_c, shininess) * LIP2;
+    res += phong(N, LP3, V, diff_c, spec_c, shininess) * LIP3;
+    //an dieser stelle könnte es schwierig werden
+    //res += phong(N, LS, V, diff_c, spec_c, shininess) * LIS;
+    color = vec4(res, 1.0f);
+*/
