@@ -39,11 +39,11 @@ void main(){
 
     vertexData.toCamera= -pos.xyz;
 
-    vec3 vpoint = (view_matrix * vec4(point_position, 1f)).xyz;
+    vec3 vpoint = (view_matrix * vec4(point_position, 1.0f)).xyz;
 
     vertexData.toPointLight = vpoint - pos.xyz;
 
-    vec3 vspot = (view_matrix * vec4(spot_position, 1f)).xyz;
+    vec3 vspot = (view_matrix * vec4(spot_position, 1.0f)).xyz;
 
     vertexData.toSpotLight = vspot - pos.xyz;
 

@@ -33,20 +33,20 @@ out vec4 color;
 
 vec3 phong(vec3 n, vec3 l, vec3 v, vec3 diff_c, vec3 spec_c, float shine)
 {
-    float cosa = max(dot(n, l), 0f);
-    float cosb = max(dot(reflect(-l, n), v), 0f);
+    float cosa = max(dot(n, l), 0.0f);
+    float cosb = max(dot(reflect(-l, n), v), 0.0f);
     return diff_c * cosa + spec_c * pow(cosb, shine);
 }
 
 float attenuation(float distance, vec3 att_params)
 {
-    return 1f / (att_params.x + att_params.y * distance + att_params.z * distance * distance);
+    return 1.0f / (att_params.x + att_params.y * distance + att_params.z * distance * distance);
 }
 
 float kegel(float inner_cone, float outer_cone, vec3 toLight, vec3 direction)
 {
     float theta = dot(-toLight, direction);
-    return clamp((theta - outer_cone)/(inner_cone - outer_cone), 0f, 1f);
+    return clamp((theta - outer_cone)/(inner_cone - outer_cone), 0.0f, 1.0f);
 }
 
 void main(){
