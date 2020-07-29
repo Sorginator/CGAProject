@@ -17,6 +17,7 @@ open class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: F
     var speedRotate: Float = 40f
     var speedPush: Float = 1f
     var isMoving: Boolean = false
+    var bleibtAufDemBoden: Boolean = true
 
     init {
         if (horizontalReverse)
@@ -34,11 +35,19 @@ open class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: F
             speedPush = 1f
         }
         if (window.getKeyState(GLFW.GLFW_KEY_W)) {
-            loadedObject.translateLocal(Vector3f(0.0f, 0f, -1f*timeDifference*hReverse*speedForward*speedPush))
+            if (bleibtAufDemBoden) {
+                loadedObject.translateLocal(Vector3f(0.0f, loadedObject.getPosition().y * -1, -1f * timeDifference * hReverse * speedForward * speedPush))
+            } else {
+                loadedObject.translateLocal(Vector3f(0.0f, loadedObject.getPosition().y * -1, -1f * timeDifference * hReverse * speedForward * speedPush))
+            }
             isMoving = true
         }
         if (window.getKeyState(GLFW.GLFW_KEY_S)) {
-            loadedObject.translateLocal(Vector3f(0.0f, 0f, 1f*timeDifference*hReverse*speedBackwards))
+            if (bleibtAufDemBoden) {
+                loadedObject.translateLocal(Vector3f(0.0f, loadedObject.getPosition().y * -1, 1f * timeDifference * hReverse * speedBackwards))
+            } else {
+                loadedObject.translateLocal(Vector3f(0.0f, 0f, 1f * timeDifference * hReverse * speedBackwards))
+            }
             isMoving = true
         }
         if (window.getKeyState(GLFW.GLFW_KEY_A)) {
@@ -47,5 +56,11 @@ open class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: F
         if (window.getKeyState(GLFW.GLFW_KEY_D)) {
             loadedObject.rotateLocal(0f, Math.toRadians(-1f*timeDifference*vReverse*speedRotate),0f)
         }
+        print("Position: ")
+        print(loadedObject.getPosition().x)
+        print(", ")
+        print(loadedObject.getPosition().y)
+        print(", ")
+        println(loadedObject.getPosition().z)
     }
 }
