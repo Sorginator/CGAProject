@@ -32,6 +32,7 @@ class Ente(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float= 0f,
         //Ente normal Bewegen lassen
         super.walk(timeDifference, window, time)
         //Ente Watscheln lassen
+        print (delta)
         if (isMoving)
         {
             temp=Math.toRadians(timeDifference * 40 * speedPush)
@@ -54,17 +55,18 @@ class Ente(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float= 0f,
         }
         else
         {
+            temp=Math.toRadians(timeDifference*50)
             if(delta>0.1f)
             {
-                loadedObject.rotateLocal(0f,0f,Math.toRadians(timeDifference*50*delta*1/100))
-                camra!!.rotateGlobal(0f,0f, Math.toRadians(timeDifference*50*delta*1/100)*-1)
-                delta-=Math.toRadians(timeDifference*50*delta*1/100)
+                loadedObject.rotateLocal(0f,0f,temp)
+                camra!!.rotateGlobal(0f,0f, temp*-1)
+                delta-=temp
             }
             else if (delta<-0.1f)
             {
-                loadedObject.rotateLocal(0f,0f,Math.toRadians(timeDifference*50*delta*1/100)*-1)
-                camra!!.rotateGlobal(0f,0f, Math.toRadians(timeDifference*50*delta*1/100))
-                delta-=Math.toRadians(timeDifference*50*delta*1/100)*-1
+                loadedObject.rotateLocal(0f,0f,temp*-1)
+                camra!!.rotateGlobal(0f,0f, temp)
+                delta-=temp*-1
             }
             else
             {
