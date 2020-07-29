@@ -18,6 +18,7 @@ open class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: F
     var speedPush: Float = 1f
     var isMoving: Boolean = false
     var bleibtAufDemBoden: Boolean = true
+    var defaultHeight: Float = loadedObject.getPosition().y * -1
 
     init {
         if (horizontalReverse)
@@ -36,15 +37,16 @@ open class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: F
         }
         if (window.getKeyState(GLFW.GLFW_KEY_W)) {
             if (bleibtAufDemBoden) {
-                loadedObject.translateLocal(Vector3f(0.0f, loadedObject.getPosition().y * -1, -1f * timeDifference * hReverse * speedForward * speedPush))
+                loadedObject.translateLocal(Vector3f(0.0f, 0f, -1f * timeDifference * hReverse * speedForward * speedPush))
+                loadedObject.translateGlobal(Vector3f(0f, defaultHeight-loadedObject.getPosition().y, 0f))
             } else {
-                loadedObject.translateLocal(Vector3f(0.0f, loadedObject.getPosition().y * -1, -1f * timeDifference * hReverse * speedForward * speedPush))
+                loadedObject.translateLocal(Vector3f(0.0f, 0f, -1f * timeDifference * hReverse * speedForward * speedPush))
             }
             isMoving = true
         }
         if (window.getKeyState(GLFW.GLFW_KEY_S)) {
             if (bleibtAufDemBoden) {
-                loadedObject.translateLocal(Vector3f(0.0f, loadedObject.getPosition().y * -1, 1f * timeDifference * hReverse * speedBackwards))
+                loadedObject.translateLocal(Vector3f(0.0f, 0f, 1f * timeDifference * hReverse * speedBackwards))
             } else {
                 loadedObject.translateLocal(Vector3f(0.0f, 0f, 1f * timeDifference * hReverse * speedBackwards))
             }
