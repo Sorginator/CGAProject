@@ -55,4 +55,5 @@ class loadedObject(
         // Aus den erstellten Daten ein Renderable Object erstellen
         renderableObject = Renderable(createdMeshes)
     }
+
 }

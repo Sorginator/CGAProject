@@ -18,7 +18,7 @@ open class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: F
     var speedPush: Float = 1f
     var isMoving: Boolean = false
     var bleibtAufDemBoden: Boolean = true
-    var defaultHeight: Float = loadedObject.getPosition().y * -1
+    var defaultHeight: Float = loadedObject.getPosition().y
 
     init {
         if (horizontalReverse)

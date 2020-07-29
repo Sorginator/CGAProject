@@ -20,6 +20,15 @@ open class Transformable(p:Transformable?) : ITransformable
         modelMatrix.rotateXYZ(pitch, yaw, roll)
     }
 
+    fun rotateGlobal(p:Float, y:Float, r:Float)
+    {
+        var m : Matrix4f = Matrix4f().identity()
+        m.rotateX(p)
+        m.rotateY(y)
+        m.rotateZ(r)
+        modelMatrix = m.mul(modelMatrix)
+    }
+
     /**
      * Rotates object around given rotation center.
      * @param pitch radiant angle around x-axis ccw

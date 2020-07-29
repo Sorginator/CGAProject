@@ -93,7 +93,7 @@ class Scene(private val window: GameWindow) {
         cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", 2f, 0f, 1f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
         // Ente
-        ente = Ente("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj", 2f, 0f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f, true)
+        ente = Ente("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj", 2f, 0.25f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f, true)
 
         // Ente Weiblich
         ente_w = texturedObject("assets/complex objects/Nagnag_w/12249_Bird_v1_L2.obj", 3f, 0f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
