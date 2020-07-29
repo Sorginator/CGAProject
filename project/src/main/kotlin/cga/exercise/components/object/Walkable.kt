@@ -8,7 +8,7 @@ import org.joml.Math
 import org.joml.Vector3f
 import org.lwjgl.glfw.GLFW
 
-class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float= 0f, rotY: Float= 0f, rotZ: Float= 0f, scaleX: Float= 1f, scaleY: Float= 1f, scaleZ: Float= 1f, horizontalReverse: Boolean= false, verticalReverse: Boolean= false) : texturedObject(path, posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ) {
+open class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float= 0f, rotY: Float= 0f, rotZ: Float= 0f, scaleX: Float= 1f, scaleY: Float= 1f, scaleZ: Float= 1f, horizontalReverse: Boolean= false, verticalReverse: Boolean= false) : texturedObject(path, posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ) {
 
     var hReverse: Int = 1
     var vReverse: Int = 1
@@ -16,10 +16,8 @@ class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float=
     var speedBackwards: Float = 5f
     var speedRotate: Float = 40f
     var speedPush: Float = 1f
-    
-    /*var watschelRichtung: Int = 1
-    var watschelRot: Float = 0f
-    var letzterWatschler = 0*/
+    var isMoving: Boolean = false
+
     init {
         if (horizontalReverse)
             hReverse = -1
@@ -27,10 +25,10 @@ class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float=
             vReverse = -1
     }
 
-    fun walk(timeDifference: Float, window: GameWindow, time: Float){
-        var isMoving: Boolean = false
+    open fun walk(timeDifference: Float, window: GameWindow, time: Float){
+        isMoving = false
         // Bewegung
-        if (window.getKeyState(GLFW.GLFW_KEY_LEFT_SHIFT)) {
+        if (window.getKeyState(GLFW.GLFW_KEY_SPACE)) {
             speedPush = 4f
         } else {
             speedPush = 1f
@@ -49,32 +47,5 @@ class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float=
         if (window.getKeyState(GLFW.GLFW_KEY_D)) {
             loadedObject.rotateLocal(0f, Math.toRadians(-1f*timeDifference*vReverse*speedRotate),0f)
         }
-        // Watschelgang
-        /*if (isMoving) {
-            if (watschelRot < 20) {
-                loadedObject.rotateLocal(0f, 0f, Math.toRadians(timeDifference * watschelRichtung * 50 * speedPush))
-                watschelRot += timeDifference * 50 * speedPush
-            } else {
-                watschelRichtung *= -1
-                watschelRot = -20f
-            }
-            letzterWatschler = 0
-        } else {
-            if (watschelRot > 0) {
-                if (letzterWatschler != 1) {
-                    watschelRichtung = -1
-                    loadedObject.rotateLocal(0f, 0f, Math.toRadians(timeDifference * watschelRichtung * 50 * speedPush))
-                    watschelRot += timeDifference * 50 * speedPush
-                    letzterWatschler = -1
-                }
-            } else if (watschelRot < 0) {
-                if (letzterWatschler != -1) {
-                    watschelRichtung = 1
-                    loadedObject.rotateLocal(0f, 0f, Math.toRadians(timeDifference * watschelRichtung * 50 * speedPush))
-                    watschelRot += timeDifference * 50 * speedPush
-                    letzterWatschler = 1
-                }
-            }
-        }*/
     }
 }

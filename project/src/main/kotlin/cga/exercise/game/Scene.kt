@@ -1,9 +1,6 @@
 package cga.exercise.game
 
-import cga.exercise.components.`object`.Baum
-import cga.exercise.components.`object`.Wald
-import cga.exercise.components.`object`.Walkable
-import cga.exercise.components.`object`.texturedObject
+import cga.exercise.components.`object`.*
 import cga.exercise.components.camera.ProjectCamera
 import cga.exercise.components.geometry.*
 import cga.exercise.components.light.PointLight
@@ -30,7 +27,7 @@ class Scene(private val window: GameWindow) {
     val loadedObjectGround : loadedObject
     val spinne : texturedObject
     val cat: texturedObject
-    val ente: Walkable
+    val ente: Ente
     val ente_w: texturedObject
     val vogel: texturedObject
     val beagle: texturedObject
@@ -96,9 +93,7 @@ class Scene(private val window: GameWindow) {
         cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", 2f, 0f, 1f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
         // Ente
-        ente = Walkable("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj", 2f, 0f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f, true)
-        ente.speedForward= 90f
-        ente.speedBackwards= 90f
+        ente = Ente("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj", 2f, 0f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f, true)
 
         // Ente Weiblich
         ente_w = texturedObject("assets/complex objects/Nagnag_w/12249_Bird_v1_L2.obj", 3f, 0f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
@@ -134,8 +129,9 @@ class Scene(private val window: GameWindow) {
 
         // Kamera
         cam= ProjectCamera(ente.loadedObject)
-        cam.rotateLocal(Math.toRadians(-20f),0f,0f)
-        cam.translateLocal(Vector3f(0f,50f,60f))
+        //cam.rotateLocal(Math.toRadians(-20f),0f,0f)
+        //cam.translateLocal(Vector3f(0f,50f,60f))
+        ente.initCamera(cam)
 
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
