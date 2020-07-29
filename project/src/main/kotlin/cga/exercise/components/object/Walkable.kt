@@ -53,10 +53,10 @@ open class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: F
             isMoving = true
         }
         if (window.getKeyState(GLFW.GLFW_KEY_A)) {
-            loadedObject.rotateLocal(0f, Math.toRadians(1f*timeDifference*vReverse*speedRotate),0f)
+            loadedObject.rotateAroundPoint(0f, Math.toRadians(1f*timeDifference*vReverse*speedRotate),0f, loadedObject.getPosition())
         }
         if (window.getKeyState(GLFW.GLFW_KEY_D)) {
-            loadedObject.rotateLocal(0f, Math.toRadians(-1f*timeDifference*vReverse*speedRotate),0f)
+            loadedObject.rotateAroundPoint(0f, Math.toRadians(-1f*timeDifference*vReverse*speedRotate),0f,loadedObject.getPosition())
         }
         print("Position: ")
         print(loadedObject.getPosition().x)

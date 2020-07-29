@@ -27,20 +27,21 @@ class Ente(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float= 0f,
 
     //Was hast du hier für einen umständlichen Käse verbrochen???
 
-    override fun walk(timeDifference: Float, window: GameWindow, time: Float) {
+    override fun walk(timeDifference: Float, window: GameWindow, time: Float)
+    {
         //Ente normal Bewegen lassen
         super.walk(timeDifference, window, time)
         //Ente Watscheln lassen
         if (isMoving)
         {
-            temp=Math.toRadians(timeDifference * 50 * speedPush)*delta*1/10
-            if (delta < 15&&dir)
+            temp=Math.toRadians(timeDifference * 40 * speedPush)
+            if (delta < 0.2f&&dir)
             {
                 delta += temp
                 loadedObject.rotateLocal(0f, 0f, temp)
                 camra!!.rotateGlobal(0f,0f,temp*-1)
             }
-            else if(delta>-15&&!dir)
+            else if(delta>-0.2f&&!dir)
             {
                 delta -= temp
                 loadedObject.rotateLocal(0f, 0f, temp*-1)
@@ -55,17 +56,20 @@ class Ente(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float= 0f,
         {
             if(delta>0.1f)
             {
-                loadedObject.rotateLocal(0f,0f,timeDifference*50*delta*1/100)
-                delta-=timeDifference*50*delta*1/100
+                loadedObject.rotateLocal(0f,0f,Math.toRadians(timeDifference*50*delta*1/100))
+                camra!!.rotateGlobal(0f,0f, Math.toRadians(timeDifference*50*delta*1/100)*-1)
+                delta-=Math.toRadians(timeDifference*50*delta*1/100)
             }
             else if (delta<-0.1f)
             {
-                loadedObject.rotateLocal(0f,0f,timeDifference*50*delta*1/100)
-                delta-=timeDifference*50*delta*1/100
+                loadedObject.rotateLocal(0f,0f,Math.toRadians(timeDifference*50*delta*1/100)*-1)
+                camra!!.rotateGlobal(0f,0f, Math.toRadians(timeDifference*50*delta*1/100))
+                delta-=Math.toRadians(timeDifference*50*delta*1/100)*-1
             }
             else
             {
                 loadedObject.rotateLocal(0f, 0f, delta * -1)
+                camra!!.rotateGlobal(0f,0f, delta)
                 delta=0f
             }
         }
