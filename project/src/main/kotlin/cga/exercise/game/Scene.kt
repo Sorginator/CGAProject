@@ -19,7 +19,6 @@ import java.awt.MouseInfo
  */
 class Scene(private val window: GameWindow) {
     private val staticShader: ShaderProgram
-    //val cycle:Renderable
     val cam: ProjectCamera
     //var pointLight: PointLight
     var spotLight: SpotLight
@@ -60,10 +59,6 @@ class Scene(private val window: GameWindow) {
         glDisable(GL_CULL_FACE); GLError.checkThrow()
         glEnable(GL_DEPTH_TEST); GLError.checkThrow()
         glDepthFunc(GL_LESS); GLError.checkThrow()
-
-        //Generate Cycle
-        //cycle = ModelLoader.loadModel("assets/Light Cycle/Light Cycle/HQ_Movie cycle.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        //cycle.scaleLocal(Vector3f(0.8f, 0.8f, 0.8f))
 
         // Ground (Objekt + Texturen) einlesen
         loadedObjectGround = loadedObject("assets/models/ground.obj", "assets/textures/ground_diff.png", "assets/textures/ground_emit.png", "assets/textures/ground_spec.png")
@@ -145,39 +140,22 @@ class Scene(private val window: GameWindow) {
         spotLight.bind(staticShader, "spot", cam.getCalculateViewMatrix())
         sonne.bind(staticShader, "point")
         staticShader.setUniform("colo", Vector3f(1f, 1f, 1f))
-        //cycle.render(staticShader)
         baum_01.render(staticShader)
         spinne.render(staticShader)
         cat.render(staticShader)
         rose.render(staticShader)
         ente.render(staticShader)
         ente_w.render(staticShader)
-        //castle.render(staticShader)
         haus.render(staticShader)
         vogel.render(staticShader)
         beagle.render(staticShader)
         haus2.render(staticShader)
-        //ground.render(staticShader)
         gras.render(staticShader)
         baum_02.render(staticShader)
         wald.render(staticShader)
     }
 
     fun update(dt: Float, t: Float) {
-        /*if (window.getKeyState(GLFW_KEY_W)) {
-            ente.loadedObject.translateLocal(Vector3f(0.0f, 0f, -5f*dt))
-            //baum_01.startAnimation()
-        }
-        if (window.getKeyState(GLFW_KEY_S)) {
-            ente.loadedObject.translateLocal(Vector3f(0.0f, 0f, 5f*dt))
-            //baum_01.resetAnimation()
-        }
-        if (window.getKeyState(GLFW_KEY_A)) {
-            ente.loadedObject.rotateLocal(0f,Math.toRadians(40f*dt),0f)
-        }
-        if (window.getKeyState(GLFW_KEY_D)) {
-            ente.loadedObject.rotateLocal(0f,Math.toRadians(-40f*dt),0f)
-        }*/
         ente_w.walk(dt, window, t)
         baum_01.animate(dt)
         wald.update(dt)
