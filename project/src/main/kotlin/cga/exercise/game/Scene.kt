@@ -19,7 +19,7 @@ import java.awt.MouseInfo
  */
 class Scene(private val window: GameWindow) {
     private val staticShader: ShaderProgram
-    val cycle:Renderable
+    //val cycle:Renderable
     val cam: ProjectCamera
     //var pointLight: PointLight
     var spotLight: SpotLight
@@ -28,7 +28,7 @@ class Scene(private val window: GameWindow) {
     val spinne : texturedObject
     val cat: texturedObject
     val ente: Ente
-    val ente_w: texturedObject
+    val ente_w: Ente
     val vogel: texturedObject
     val beagle: texturedObject
     val haus2: texturedObject
@@ -62,22 +62,14 @@ class Scene(private val window: GameWindow) {
         glDepthFunc(GL_LESS); GLError.checkThrow()
 
         //Generate Cycle
-        cycle = ModelLoader.loadModel("assets/Light Cycle/Light Cycle/HQ_Movie cycle.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        cycle.scaleLocal(Vector3f(0.8f, 0.8f, 0.8f))
+        //cycle = ModelLoader.loadModel("assets/Light Cycle/Light Cycle/HQ_Movie cycle.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
+        //cycle.scaleLocal(Vector3f(0.8f, 0.8f, 0.8f))
 
         // Ground (Objekt + Texturen) einlesen
         loadedObjectGround = loadedObject("assets/models/ground.obj", "assets/textures/ground_diff.png", "assets/textures/ground_emit.png", "assets/textures/ground_spec.png")
 
-        //Cam Setup
-        /*cam= ProjectCamera(cycle)
-        cam.rotateLocal(Math.toRadians(-20f),0f,0f)
-        cam.translateLocal(Vector3f(0f,0f,4f))*/
-
         //licht und so
         //pointLight=PointLight(Vector3f(0f, 1f, 0f), Vector3f(1.0f, 0.5f, 0.1f), Vector3f(1f,1f,1f),cycle)
-
-        spotLight= SpotLight(Vector3f(0f,1f,0f), Vector3f(0.5f, 0.05f, 0.01f),Vector3f(0.5f,0.5f,1f), cycle, 15f,20f)
-        spotLight.rotateLocal(Math.toRadians(-20f),0f,0f)
 
         //Sonne
         sonne = PointLight(org.joml.Vector3f(0f, 9f, 0f), Vector3f(1.0f, 0.5f, 0.1f), Vector3f(1f,1f,0f), null)
@@ -93,10 +85,10 @@ class Scene(private val window: GameWindow) {
         cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", 2f, 0f, 1f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
         // Ente
-        ente = Ente("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj", 2f, 0.25f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f, true)
+        ente = Ente("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj", 2f, 0.1f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f, true)
 
         // Ente Weiblich
-        ente_w = texturedObject("assets/complex objects/Nagnag_w/12249_Bird_v1_L2.obj", 3f, 0f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+        ente_w = Ente("assets/complex objects/Nagnag_w/12249_Bird_v1_L2.obj", 3f, 0.1f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f, true)
 
         // Vogel
         vogel = texturedObject("assets/complex objects/Bird/12214_Bird_v1max_l3.obj", 4f, 0f, 5f, -90f, 90f, 0f, 0.01f, 0.01f, 0.01f)
@@ -128,10 +120,11 @@ class Scene(private val window: GameWindow) {
         wald = Wald(30, -30f, -30f, 30f, 30f, 5f)
 
         // Kamera
-        cam= ProjectCamera(ente.loadedObject)
-        //cam.rotateLocal(Math.toRadians(-20f),0f,0f)
-        //cam.translateLocal(Vector3f(0f,50f,60f))
-        ente.initCamera(cam)
+        cam= ProjectCamera(ente_w.loadedObject)
+        ente_w.initCamera(cam)
+
+        spotLight= SpotLight(Vector3f(0f,1f,0f), Vector3f(0.5f, 0.05f, 0.01f),Vector3f(0.5f,0.5f,1f), ente.loadedObject, 15f,20f)
+        spotLight.rotateLocal(Math.toRadians(-20f),0f,0f)
 
         // Maus
         old_mouse_pos_x = MouseInfo.getPointerInfo().location.getX()
@@ -152,7 +145,7 @@ class Scene(private val window: GameWindow) {
         spotLight.bind(staticShader, "spot", cam.getCalculateViewMatrix())
         sonne.bind(staticShader, "point")
         staticShader.setUniform("colo", Vector3f(1f, 1f, 1f))
-        cycle.render(staticShader)
+        //cycle.render(staticShader)
         baum_01.render(staticShader)
         spinne.render(staticShader)
         cat.render(staticShader)
@@ -185,7 +178,7 @@ class Scene(private val window: GameWindow) {
         if (window.getKeyState(GLFW_KEY_D)) {
             ente.loadedObject.rotateLocal(0f,Math.toRadians(-40f*dt),0f)
         }*/
-        ente.walk(dt, window, t)
+        ente_w.walk(dt, window, t)
         baum_01.animate(dt)
         wald.update(dt)
     }
