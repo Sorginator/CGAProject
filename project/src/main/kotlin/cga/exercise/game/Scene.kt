@@ -24,7 +24,7 @@ class Scene(private val window: GameWindow) {
     var spotLight: SpotLight
     val sonne : PointLight
     val loadedObjectGround : loadedObject
-    val spinne : texturedObject
+    val spinne : Spinne
     val cat: texturedObject
     val ente: Ente
     val ente_w: Ente
@@ -74,7 +74,7 @@ class Scene(private val window: GameWindow) {
         baum_02 = Baum(-4f, 0f, 0f, 90f, 0f, 90f, 1, false)
 
         // Spinne
-        spinne = texturedObject("assets/complex objects/Spinne/Only_Spider_with_Animations_Export.obj", 2f, 0f, 0f, -90f, 90f, -90f, 0.005f, 0.005f, 0.005f)
+        spinne = Spinne(2f, 0.1f, 0f, -90f, 90f, -90f)
 
         // Katze
         cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", 2f, 0f, 1f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
