@@ -12,7 +12,6 @@ class Ente(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float= 0f,
     var delta:Float=0f
     var dir:Boolean=true
     var temp:Float=0f
-    var camra: ProjectCamera? =null
 
     init {
         speedForward= 90f
@@ -22,7 +21,6 @@ class Ente(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float= 0f,
     fun initCamera(cam: ProjectCamera) {
         cam.rotateLocal(Math.toRadians(-20f),0f,0f)
         cam.translateLocal(Vector3f(0f,50f,60f))
-        camra=cam
     }
 
     //Was hast du hier für einen umständlichen Käse verbrochen???
@@ -32,7 +30,6 @@ class Ente(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float= 0f,
         //Ente normal Bewegen lassen
         super.walk(timeDifference, window, time)
         //Ente Watscheln lassen
-        print (delta)
         if (isMoving)
         {
             temp=Math.toRadians(timeDifference * 40 * speedPush)
@@ -40,13 +37,11 @@ class Ente(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float= 0f,
             {
                 delta += temp
                 loadedObject.rotateLocal(0f, 0f, temp)
-                camra!!.rotateGlobal(0f,0f,temp*-1)
             }
             else if(delta>-0.2f&&!dir)
             {
                 delta -= temp
                 loadedObject.rotateLocal(0f, 0f, temp*-1)
-                camra!!.rotateGlobal(0f,0f, temp)
             }
             else
             {
@@ -59,19 +54,16 @@ class Ente(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float= 0f,
             if(delta>0.1f)
             {
                 loadedObject.rotateLocal(0f,0f,temp)
-                camra!!.rotateGlobal(0f,0f, temp*-1)
                 delta-=temp
             }
             else if (delta<-0.1f)
             {
                 loadedObject.rotateLocal(0f,0f,temp*-1)
-                camra!!.rotateGlobal(0f,0f, temp)
                 delta-=temp*-1
             }
             else
             {
                 loadedObject.rotateLocal(0f, 0f, delta * -1)
-                camra!!.rotateGlobal(0f,0f, delta)
                 delta=0f
             }
         }
