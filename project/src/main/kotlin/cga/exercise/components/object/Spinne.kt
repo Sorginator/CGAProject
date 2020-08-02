@@ -4,16 +4,16 @@ import cga.exercise.components.camera.ProjectCamera
 import org.joml.Math
 import org.joml.Vector3f
 
-class Spinne(posX: Float, posY: Float, posZ: Float, rotX: Float= 0f, rotY: Float= 0f, rotZ: Float= 0f, scaleX: Float= 0.0007f, scaleY: Float= 0.0007f, scaleZ: Float= 0.0007f):
+class Spinne(posX: Float, posY: Float, posZ: Float, rotX: Float= 0f, rotY: Float= 0f, rotZ: Float= 0f, scaleX: Float= 0.0001f, scaleY: Float= 0.0001f, scaleZ: Float= 0.0001f):
         Walkable("assets/complex objects/Spinne/Only_Spider_with_Animations_Export.obj", posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ, false, false) {
 
     init {
-        speedForward= 200f
-        speedBackwards= 150f
+        speedForward= 1000f
+        speedBackwards= 750f
     }
 
     fun initCamera(cam: ProjectCamera) {
         cam.rotateLocal(Math.toRadians(-20f),0f,0f)
-        cam.translateLocal(Vector3f(0f,190f,280f))
+        cam.translateLocal(Vector3f(0f,200f,1200f))
     }
 }
