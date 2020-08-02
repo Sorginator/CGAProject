@@ -74,7 +74,7 @@ class Scene(private val window: GameWindow) {
         baum_02 = Baum(-4f, 0f, 0f, 90f, 0f, 90f, 1, false)
 
         // Spinne
-        spinne = Spinne(2f, 0.1f, 0f, -90f, 90f, -90f)
+        spinne = Spinne(2f, 0.1f, 0f, 0f, 0f, 0f)
 
         // Katze
         cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", 2f, 0f, 1f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
