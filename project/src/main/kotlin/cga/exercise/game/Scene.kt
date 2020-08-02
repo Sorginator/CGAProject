@@ -115,8 +115,8 @@ class Scene(private val window: GameWindow) {
         wald = Wald(30, -30f, -30f, 30f, 30f, 5f)
 
         // Kamera
-        cam= ProjectCamera(ente_w.loadedObject)
-        ente_w.initCamera(cam)
+        cam= ProjectCamera(spinne.loadedObject)
+        spinne.initCamera(cam)
 
         spotLight= SpotLight(Vector3f(0f,1f,0f), Vector3f(0.5f, 0.05f, 0.01f),Vector3f(0.5f,0.5f,1f), ente.loadedObject, 15f,20f)
         spotLight.rotateLocal(Math.toRadians(-20f),0f,0f)
@@ -156,7 +156,7 @@ class Scene(private val window: GameWindow) {
     }
 
     fun update(dt: Float, t: Float) {
-        ente_w.walk(dt, window, t)
+        spinne.walk(dt, window, t)
         baum_01.animate(dt)
         wald.update(dt)
     }

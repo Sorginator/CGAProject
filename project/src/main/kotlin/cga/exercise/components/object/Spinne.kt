@@ -8,11 +8,12 @@ class Spinne(posX: Float, posY: Float, posZ: Float, rotX: Float= 0f, rotY: Float
         Walkable("assets/complex objects/Spinne/Only_Spider_with_Animations_Export.obj", posX, posY, posZ, rotX, rotY, rotZ, scaleX, scaleY, scaleZ, false, false) {
 
     init {
-
+        speedForward= 200f
+        speedBackwards= 150f
     }
 
     fun initCamera(cam: ProjectCamera) {
         cam.rotateLocal(Math.toRadians(-20f),0f,0f)
-        cam.translateLocal(Vector3f(0f,50f,60f))
+        cam.translateLocal(Vector3f(0f,190f,280f))
     }
 }
