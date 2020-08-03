@@ -19,6 +19,7 @@ import java.awt.MouseInfo
  */
 class Scene(private val window: GameWindow) {
     private val staticShader: ShaderProgram
+    val toonShader: ShaderProgram
     val cam: ProjectCamera
     //var pointLight: PointLight
     var spotLight: SpotLight
@@ -50,6 +51,7 @@ class Scene(private val window: GameWindow) {
     init {
         // Shader initialisieren
         staticShader = ShaderProgram("assets/shaders/project_vert.glsl", "assets/shaders/project_frag.glsl")
+        toonShader = ShaderProgram("assets/shaders/toon_vert.glsl", "assets/shaders/toon_frag.glsl")
 
         glEnable(GL_CULL_FACE)
         glFrontFace(GL_CCW)
