@@ -1,5 +1,3 @@
-#version 120
-
 #version 330 core
 
 //input from vertex shader
@@ -9,7 +7,6 @@ in struct VertexData
     vec2 texKoords;
     vec3 toCamera;
     vec3 toPointLight;
-    vec3 toSpotLight;
 } vertexData;
 
 //uniforms!
