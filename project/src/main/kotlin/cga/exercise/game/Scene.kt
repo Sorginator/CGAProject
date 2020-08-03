@@ -46,6 +46,8 @@ class Scene(private val window: GameWindow) {
     var old_mouse_pos_x : Double
     var old_mouse_pos_y : Double
 
+    var shaderAuswahl: Int = 2
+
 
     //scene setup
     init {
@@ -136,28 +138,47 @@ class Scene(private val window: GameWindow) {
     fun render (dt: Float, t:Float)
     {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
-        staticShader.use()
-        cam.bind(staticShader)
-        //pointLight.bind(staticShader,"point")
-        spotLight.bind(staticShader, "spot", cam.getCalculateViewMatrix())  // <-- Grund für die Punktlichquellen sicht die sich mit der Kamera bewegt
-        sonne.bind(staticShader, "point")
-        staticShader.setUniform("colo", Vector3f(1f, 1f, 1f))
-        baum_01.render(staticShader)
-        spinne.render(staticShader)
-        cat.render(staticShader)
-        rose.render(staticShader)
-        ente.render(staticShader)
-        ente_w.render(staticShader)
-        vogel.render(staticShader)
-        beagle.render(staticShader)
-        haus2.render(staticShader)
-        gras.render(staticShader)
-        baum_02.render(staticShader)
-        wald.render(staticShader)
-        toonShader.use()
-        spotLight.bind(toonShader, "spot", cam.getCalculateViewMatrix())
-        sonne.bind(toonShader, "point")
-        haus.render(toonShader)
+        if (shaderAuswahl == 1) {
+            staticShader.use()
+            cam.bind(staticShader)
+            //pointLight.bind(staticShader,"point")
+            spotLight.bind(staticShader, "spot", cam.getCalculateViewMatrix())  // <-- Grund für die Punktlichquellen sicht die sich mit der Kamera bewegt
+            sonne.bind(staticShader, "point")
+            staticShader.setUniform("colo", Vector3f(1f, 1f, 1f))
+            baum_01.render(staticShader)
+            spinne.render(staticShader)
+            cat.render(staticShader)
+            rose.render(staticShader)
+            ente.render(staticShader)
+            ente_w.render(staticShader)
+            vogel.render(staticShader)
+            beagle.render(staticShader)
+            haus2.render(staticShader)
+            gras.render(staticShader)
+            baum_02.render(staticShader)
+            wald.render(staticShader)
+            haus.render(staticShader)
+        } else {
+            toonShader.use()
+            cam.bind(toonShader)
+            //pointLight.bind(staticShader,"point")
+            //spotLight.bind(toonShader, "spot", cam.getCalculateViewMatrix())  // <-- Grund für die Punktlichquellen sicht die sich mit der Kamera bewegt
+            sonne.bind(toonShader, "point")
+            toonShader.setUniform("colo", Vector3f(1f, 1f, 1f))
+            baum_01.render(toonShader)
+            spinne.render(toonShader)
+            cat.render(toonShader)
+            rose.render(toonShader)
+            ente.render(toonShader)
+            ente_w.render(toonShader)
+            vogel.render(toonShader)
+            beagle.render(toonShader)
+            haus2.render(toonShader)
+            gras.render(toonShader)
+            baum_02.render(toonShader)
+            wald.render(toonShader)
+            haus.render(toonShader)
+        }
     }
 
     fun update(dt: Float, t: Float) {
