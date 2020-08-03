@@ -139,7 +139,7 @@ class Scene(private val window: GameWindow) {
         staticShader.use()
         cam.bind(staticShader)
         //pointLight.bind(staticShader,"point")
-        spotLight.bind(staticShader, "spot", cam.getCalculateViewMatrix())
+        spotLight.bind(staticShader, "spot", cam.getCalculateViewMatrix())  // <-- Grund für die Punktlichquellen sicht die sich mit der Kamera bewegt
         sonne.bind(staticShader, "point")
         staticShader.setUniform("colo", Vector3f(1f, 1f, 1f))
         baum_01.render(staticShader)
@@ -148,13 +148,16 @@ class Scene(private val window: GameWindow) {
         rose.render(staticShader)
         ente.render(staticShader)
         ente_w.render(staticShader)
-        haus.render(staticShader)
         vogel.render(staticShader)
         beagle.render(staticShader)
         haus2.render(staticShader)
         gras.render(staticShader)
         baum_02.render(staticShader)
         wald.render(staticShader)
+        toonShader.use()
+        spotLight.bind(toonShader, "spot", cam.getCalculateViewMatrix())
+        sonne.bind(toonShader, "point")
+        haus.render(toonShader)
     }
 
     fun update(dt: Float, t: Float) {
