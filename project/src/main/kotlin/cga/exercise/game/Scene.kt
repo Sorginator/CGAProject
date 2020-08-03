@@ -191,7 +191,15 @@ class Scene(private val window: GameWindow) {
     ** Tastendruck                                              **
     ************************************************************ */
 
-    fun onKey(key: Int, scancode: Int, action: Int, mode: Int) {}
+    fun onKey(key: Int, scancode: Int, action: Int, mode: Int) {
+        if (key == 290 && scancode == 59 && action == 1 && mode == 0) {
+            if (shaderAuswahl == 1) {
+                shaderAuswahl = 2
+            } else {
+                shaderAuswahl = 1
+            }
+        }
+    }
 
     fun onMouseMove(xpos: Double, ypos: Double)
     {
