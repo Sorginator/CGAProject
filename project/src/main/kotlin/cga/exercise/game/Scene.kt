@@ -189,7 +189,7 @@ class Scene(private val window: GameWindow) {
         {
             Flying.fly(cam,dt,window)
         }
-        else 
+        else
         {
             ref.walk(dt, window, t)
         }
@@ -209,7 +209,7 @@ class Scene(private val window: GameWindow) {
                 shaderAuswahl = 1
             }
         }
-        if(true)
+        if(false)
         {
             //wie auch immer das nochmal geht, auf c soll die cam gewechselt werden
             switchCam()
