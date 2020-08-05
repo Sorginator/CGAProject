@@ -9,7 +9,8 @@ class ProjectCamera(p: Transformable?,
                  Field_of_view : Float = Math.toRadians(90f),
                  aspect_ratio : Float = 16.0f/9.0f,
                  Near_Plane : Float = 0.1f,
-                 Far_Plane : Float = 100.0f) : Transformable(p), ICamera {
+                 Far_Plane : Float = 100.0f) : Transformable(p), ICamera
+{
 
     var FieldOfView : Float = Field_of_view
     var Seitenverhältnis : Float = aspect_ratio

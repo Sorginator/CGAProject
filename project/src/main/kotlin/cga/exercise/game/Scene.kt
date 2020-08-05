@@ -10,7 +10,6 @@ import cga.framework.*
 import org.joml.Vector3f
 import org.lwjgl.opengl.GL11.*
 import org.joml.Math
-import org.lwjgl.glfw.GLFW.*
 import java.awt.MouseInfo
 
 
@@ -20,7 +19,8 @@ import java.awt.MouseInfo
 class Scene(private val window: GameWindow) {
     private val staticShader: ShaderProgram
     val toonShader: ShaderProgram
-    val cam: ProjectCamera
+    var cam: ProjectCamera
+    var ref:Renderable
     //var pointLight: PointLight
     var spotLight: SpotLight
     val sonne : PointLight
@@ -119,7 +119,8 @@ class Scene(private val window: GameWindow) {
         wald = Wald(30, -30f, -30f, 30f, 30f, 5f)
 
         // Kamera
-        cam= ProjectCamera(spinne.loadedObject)
+        ref =spinne.loadedObject
+        cam= ProjectCamera(ref)
         spinne.initCamera(cam)
 
         spotLight= SpotLight(Vector3f(0f,1f,0f), Vector3f(0.5f, 0.05f, 0.01f),Vector3f(0.5f,0.5f,1f), ente.loadedObject, 15f,20f)
@@ -198,6 +199,25 @@ class Scene(private val window: GameWindow) {
             } else {
                 shaderAuswahl = 1
             }
+        }
+        if(true)
+        {
+            //wie auch immer das nochmal geht, auf c soll die cam gewechselt werden
+            switchCam()
+        }
+    }
+
+    fun switchCam()
+    {
+        if(cam.parent==null)
+        {
+            cam=ProjectCamera(ref)
+        }
+        else
+        {
+            cam=ProjectCamera(null)
+            cam.modelMatrix=ref.getWorldModelMatrix()
+            cam.translateGlobal(Vector3f(0f, 10f, 0f))
         }
     }
 
