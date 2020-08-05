@@ -1,6 +1,7 @@
 package cga.exercise.game
 
 import cga.exercise.components.`object`.*
+import cga.exercise.components.animation.Flying
 import cga.exercise.components.camera.ProjectCamera
 import cga.exercise.components.geometry.*
 import cga.exercise.components.light.PointLight
@@ -20,7 +21,7 @@ class Scene(private val window: GameWindow) {
     private val staticShader: ShaderProgram
     val toonShader: ShaderProgram
     var cam: ProjectCamera
-    var ref:Renderable
+    var ref:Walkable
     //var pointLight: PointLight
     var spotLight: SpotLight
     val sonne : PointLight
@@ -119,8 +120,8 @@ class Scene(private val window: GameWindow) {
         wald = Wald(30, -30f, -30f, 30f, 30f, 5f)
 
         // Kamera
-        ref =spinne.loadedObject
-        cam= ProjectCamera(ref)
+        ref = spinne
+        cam= ProjectCamera(ref.loadedObject)
         spinne.initCamera(cam)
 
         spotLight= SpotLight(Vector3f(0f,1f,0f), Vector3f(0.5f, 0.05f, 0.01f),Vector3f(0.5f,0.5f,1f), ente.loadedObject, 15f,20f)
@@ -182,8 +183,16 @@ class Scene(private val window: GameWindow) {
         }
     }
 
-    fun update(dt: Float, t: Float) {
-        spinne.walk(dt, window, t)
+    fun update(dt: Float, t: Float)
+    {
+        if(cam.parent==null)
+        {
+            Flying.fly(cam,dt,window)
+        }
+        else 
+        {
+            ref.walk(dt, window, t)
+        }
         baum_01.animate(dt)
         wald.update(dt)
     }
@@ -205,18 +214,28 @@ class Scene(private val window: GameWindow) {
             //wie auch immer das nochmal geht, auf c soll die cam gewechselt werden
             switchCam()
         }
+        //und dann noch was um das Referenzobjekt zu wechseln mit switchRef(x)
+    }
+
+    fun switchRef(r:Walkable)
+    {
+        ref=r
+        if(cam.parent!=null)
+        {
+            cam=ProjectCamera(ref.loadedObject)
+        }
     }
 
     fun switchCam()
     {
         if(cam.parent==null)
         {
-            cam=ProjectCamera(ref)
+            cam=ProjectCamera(ref.loadedObject)
         }
         else
         {
             cam=ProjectCamera(null)
-            cam.modelMatrix=ref.getWorldModelMatrix()
+            cam.modelMatrix=ref.loadedObject.getWorldModelMatrix()
             cam.translateGlobal(Vector3f(0f, 10f, 0f))
         }
     }
