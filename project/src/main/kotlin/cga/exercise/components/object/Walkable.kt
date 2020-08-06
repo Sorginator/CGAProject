@@ -1,5 +1,6 @@
 package cga.exercise.components.`object`
 
+import cga.exercise.components.camera.ProjectCamera
 import cga.exercise.components.geometry.Mesh
 import cga.exercise.components.geometry.Renderable
 import cga.exercise.components.shader.ShaderProgram
@@ -61,11 +62,16 @@ open class Walkable(path: String, posX: Float, posY: Float, posZ: Float, rotX: F
             isMoving = true
         }
         if (window.getKeyState(GLFW.GLFW_KEY_A)) {
-            loadedObject.rotateAroundPoint(0f, Math.toRadians(1f*timeDifference*vReverse*speedRotate),0f, loadedObject.getPosition())
+            loadedObject.rotateAroundPoint(0f, Math.toRadians(1f*timeDifference*vReverse*speedRotate*speedPush),0f, loadedObject.getPosition())
         }
         if (window.getKeyState(GLFW.GLFW_KEY_D)) {
-            loadedObject.rotateAroundPoint(0f, Math.toRadians(-1f*timeDifference*vReverse*speedRotate),0f,loadedObject.getPosition())
+            loadedObject.rotateAroundPoint(0f, Math.toRadians(-1f*timeDifference*vReverse*speedRotate*speedPush),0f,loadedObject.getPosition())
         }
+    }
+
+    open fun initCamera(cam: ProjectCamera) {
+        cam.rotateLocal(Math.toRadians(-20f),0f,0f)
+        cam.translateLocal(Vector3f(0f,50f,60f))
     }
 
     open fun render(shader: ShaderProgram){
