@@ -173,6 +173,10 @@ class Scene(private val window: GameWindow) {
         haus.render(aktuellerShader)
     }
 
+    /* ***********************************************************
+    ** Update Funktion                                          **
+    ************************************************************ */
+
     fun update(dt: Float, t: Float)
     {
         if(cam.parent==null)
@@ -221,11 +225,13 @@ class Scene(private val window: GameWindow) {
         {
             switchCam()
         }
-        //und dann noch was um das Referenzobjekt zu wechseln mit switchRef(x)
     }
 
+    /* ***********************************************************
+    ** Wechsel der Kamera                                       **
+    ************************************************************ */
+
     fun camWechsel(richtung: Int) {
-        var newTarget: Walkable
         if ((aktKameraAuswahl + richtung) > 3) {
             aktKameraAuswahl = 1
         } else if ((aktKameraAuswahl + richtung) < 0) {
@@ -234,12 +240,14 @@ class Scene(private val window: GameWindow) {
             aktKameraAuswahl += richtung
         }
         when (aktKameraAuswahl) {
-            1 -> newTarget = ente
-            2 -> newTarget = ente_w
-            3 -> newTarget = spinne
-            else -> newTarget = ente
+            1 -> referenzObjekt = ente
+            2 -> referenzObjekt = ente_w
+            3 -> referenzObjekt = spinne
+            else -> referenzObjekt = ente
         }
-        cam.changeParent(newTarget.loadedObject)
+        //cam.changeParent(newTarget.loadedObject)
+        cam=ProjectCamera(referenzObjekt.loadedObject)
+        referenzObjekt.initCamera(cam)
     }
 
     fun switchRef(r:Walkable)
