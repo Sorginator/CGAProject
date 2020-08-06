@@ -8,6 +8,10 @@ open class Transformable(p:Transformable?) : ITransformable
     var modelMatrix : Matrix4f = Matrix4f().identity()
     var parent : Transformable? = p
 
+    fun changeParent(newParent: Transformable) {
+        parent = newParent
+    }
+
     /**
      * Rotates object around its own origin.
      * @param pitch radiant angle around x-axis ccw
