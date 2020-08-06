@@ -49,7 +49,8 @@ class Scene(private val window: GameWindow) {
     var old_mouse_pos_x : Double
     var old_mouse_pos_y : Double
 
-    var shaderAuswahl: Int = 2
+    var shaderAuswahl: Int = 1
+    var aktKameraAuswahl: Int = 1
 
 
     //scene setup
@@ -208,12 +209,37 @@ class Scene(private val window: GameWindow) {
         print(action)
         print(", ")
         println(mode)*/
-        if(key == 67 && scancode == 46 && action == 1 && mode == 0)
+        // Wechsel des Walkables
+        if(key == 262 && scancode == 333 && action == 1 && mode == 0) // Rechts
         {
-            //wie auch immer das nochmal geht, auf c soll die cam gewechselt werden
+            camWechsel(1)
+        } else if (key == 263 && scancode == 331 && action == 1 && mode == 0) { // Links
+            camWechsel(-1)
+        }
+        //Kamera wird per "Tab" zwischen Fly und Normal gewechselt
+        if(key == 258 && scancode == 15 && action == 1 && mode == 0)
+        {
             switchCam()
         }
         //und dann noch was um das Referenzobjekt zu wechseln mit switchRef(x)
+    }
+
+    fun camWechsel(richtung: Int) {
+        var newTarget: Walkable
+        if ((aktKameraAuswahl + richtung) > 3) {
+            aktKameraAuswahl = 1
+        } else if ((aktKameraAuswahl + richtung) < 0) {
+            aktKameraAuswahl = 3
+        } else {
+            aktKameraAuswahl += richtung
+        }
+        when (aktKameraAuswahl) {
+            1 -> newTarget = ente
+            2 -> newTarget = ente_w
+            3 -> newTarget = spinne
+            else -> newTarget = ente
+        }
+        cam.changeParent(newTarget.loadedObject)
     }
 
     fun switchRef(r:Walkable)
