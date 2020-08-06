@@ -12,8 +12,8 @@ class Spinne(posX: Float, posY: Float, posZ: Float, rotX: Float= 0f, rotY: Float
         speedBackwards= 750f
     }
 
-    fun initCamera(cam: ProjectCamera) {
-        cam.rotateLocal(Math.toRadians(-20f),0f,0f)
+    override fun initCamera(cam: ProjectCamera) {
+        cam.rotateLocal(Math.toRadians(-20f),Math.toRadians(0f),0f)
         cam.translateLocal(Vector3f(0f,200f,1200f))
     }
 }
