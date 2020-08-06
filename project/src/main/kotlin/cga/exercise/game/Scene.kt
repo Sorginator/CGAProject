@@ -20,8 +20,10 @@ import java.awt.MouseInfo
 class Scene(private val window: GameWindow) {
     private val staticShader: ShaderProgram
     val toonShader: ShaderProgram
+    val normalenShader: ShaderProgram
+    var aktuellerShader: ShaderProgram
     var cam: ProjectCamera
-    var ref:Walkable
+    var referenzObjekt:Walkable
     //var pointLight: PointLight
     var spotLight: SpotLight
     val sonne : PointLight
@@ -55,6 +57,8 @@ class Scene(private val window: GameWindow) {
         // Shader initialisieren
         staticShader = ShaderProgram("assets/shaders/project_vert.glsl", "assets/shaders/project_frag.glsl")
         toonShader = ShaderProgram("assets/shaders/toon_vert.glsl", "assets/shaders/toon_frag.glsl")
+        normalenShader = ShaderProgram("assets/shaders/normalen_vert.glsl", "assets/shaders/normalen_frag.glsl")
+        aktuellerShader = staticShader
 
         glEnable(GL_CULL_FACE)
         glFrontFace(GL_CCW)
@@ -120,9 +124,9 @@ class Scene(private val window: GameWindow) {
         wald = Wald(30, -30f, -30f, 30f, 30f, 5f)
 
         // Kamera
-        ref = spinne
-        cam= ProjectCamera(ref.loadedObject)
-        spinne.initCamera(cam)
+        referenzObjekt = ente_w
+        cam= ProjectCamera(referenzObjekt.loadedObject)
+        ente_w.initCamera(cam)
 
         spotLight= SpotLight(Vector3f(0f,1f,0f), Vector3f(0.5f, 0.05f, 0.01f),Vector3f(0.5f,0.5f,1f), ente.loadedObject, 15f,20f)
         spotLight.rotateLocal(Math.toRadians(-20f),0f,0f)
@@ -140,47 +144,32 @@ class Scene(private val window: GameWindow) {
     fun render (dt: Float, t:Float)
     {
         glClear(GL_COLOR_BUFFER_BIT or GL_DEPTH_BUFFER_BIT)
-        if (shaderAuswahl == 1) {
-            staticShader.use()
-            cam.bind(staticShader)
-            //pointLight.bind(staticShader,"point")
-            spotLight.bind(staticShader, "spot", cam.getCalculateViewMatrix())  // <-- Grund für die Punktlichquellen sicht die sich mit der Kamera bewegt
-            sonne.bind(staticShader, "point")
-            staticShader.setUniform("colo", Vector3f(1f, 1f, 1f))
-            baum_01.render(staticShader)
-            spinne.render(staticShader)
-            cat.render(staticShader)
-            rose.render(staticShader)
-            ente.render(staticShader)
-            ente_w.render(staticShader)
-            vogel.render(staticShader)
-            beagle.render(staticShader)
-            haus2.render(staticShader)
-            gras.render(staticShader)
-            baum_02.render(staticShader)
-            wald.render(staticShader)
-            haus.render(staticShader)
-        } else {
-            toonShader.use()
-            cam.bind(toonShader)
-            //pointLight.bind(staticShader,"point")
-            //spotLight.bind(toonShader, "spot", cam.getCalculateViewMatrix())  // <-- Grund für die Punktlichquellen sicht die sich mit der Kamera bewegt
-            sonne.bind(toonShader, "point")
-            toonShader.setUniform("colo", Vector3f(1f, 1f, 1f))
-            baum_01.render(toonShader)
-            spinne.render(toonShader)
-            cat.render(toonShader)
-            rose.render(toonShader)
-            ente.render(toonShader)
-            ente_w.render(toonShader)
-            vogel.render(toonShader)
-            beagle.render(toonShader)
-            haus2.render(toonShader)
-            gras.render(toonShader)
-            baum_02.render(toonShader)
-            wald.render(toonShader)
-            haus.render(toonShader)
+        when (shaderAuswahl) {
+            1 -> aktuellerShader = staticShader
+            2 -> aktuellerShader = toonShader
+            3 -> aktuellerShader = normalenShader
+            else -> {
+
+            }
         }
+        aktuellerShader.use()
+        cam.bind(aktuellerShader)
+        spotLight.bind(aktuellerShader, "spot", cam.getCalculateViewMatrix())  // <-- Grund für die Punktlichquellen sicht die sich mit der Kamera bewegt
+        sonne.bind(aktuellerShader, "point")
+        aktuellerShader.setUniform("colo", Vector3f(1f, 1f, 1f))
+        baum_01.render(aktuellerShader)
+        spinne.render(aktuellerShader)
+        cat.render(aktuellerShader)
+        rose.render(aktuellerShader)
+        ente.render(aktuellerShader)
+        ente_w.render(aktuellerShader)
+        vogel.render(aktuellerShader)
+        beagle.render(aktuellerShader)
+        haus2.render(aktuellerShader)
+        gras.render(aktuellerShader)
+        baum_02.render(aktuellerShader)
+        wald.render(aktuellerShader)
+        haus.render(aktuellerShader)
     }
 
     fun update(dt: Float, t: Float)
@@ -191,7 +180,7 @@ class Scene(private val window: GameWindow) {
         }
         else
         {
-            ref.walk(dt, window, t)
+            referenzObjekt.walk(dt, window, t)
         }
         baum_01.animate(dt)
         wald.update(dt)
@@ -202,14 +191,24 @@ class Scene(private val window: GameWindow) {
     ************************************************************ */
 
     fun onKey(key: Int, scancode: Int, action: Int, mode: Int) {
-        if (key == 290 && scancode == 59 && action == 1 && mode == 0) {
-            if (shaderAuswahl == 1) {
-                shaderAuswahl = 2
-            } else {
-                shaderAuswahl = 1
+        if (key == 290 && scancode == 59 && action == 1 && mode == 0) { // F11 zum Wechseln des aktiven Shaders
+            when (shaderAuswahl) {
+                1 -> shaderAuswahl = 2
+                2 -> shaderAuswahl = 3
+                3 -> shaderAuswahl = 1
+                else -> {
+                    shaderAuswahl = 1
+                }
             }
         }
-        if(false)
+        /*print(key)
+        print(", ")
+        print(scancode)
+        print(", ")
+        print(action)
+        print(", ")
+        println(mode)*/
+        if(key == 67 && scancode == 46 && action == 1 && mode == 0)
         {
             //wie auch immer das nochmal geht, auf c soll die cam gewechselt werden
             switchCam()
@@ -219,10 +218,10 @@ class Scene(private val window: GameWindow) {
 
     fun switchRef(r:Walkable)
     {
-        ref=r
+        referenzObjekt=r
         if(cam.parent!=null)
         {
-            cam=ProjectCamera(ref.loadedObject)
+            cam=ProjectCamera(referenzObjekt.loadedObject)
         }
     }
 
@@ -230,12 +229,12 @@ class Scene(private val window: GameWindow) {
     {
         if(cam.parent==null)
         {
-            cam=ProjectCamera(ref.loadedObject)
+            cam=ProjectCamera(referenzObjekt.loadedObject)
         }
         else
         {
             cam=ProjectCamera(null)
-            cam.modelMatrix=ref.loadedObject.getWorldModelMatrix()
+            cam.modelMatrix=referenzObjekt.loadedObject.getWorldModelMatrix()
             cam.translateGlobal(Vector3f(0f, 10f, 0f))
         }
     }
