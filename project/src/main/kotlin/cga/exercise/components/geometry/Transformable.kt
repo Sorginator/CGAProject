@@ -7,6 +7,7 @@ open class Transformable(p:Transformable?) : ITransformable
 {
     open var rhRot:Boolean=true
     open var rhDir:Boolean=true
+    open var rhAlt:Float=0f
 
     var modelMatrix : Matrix4f = Matrix4f().identity()
     var parent : Transformable? = p

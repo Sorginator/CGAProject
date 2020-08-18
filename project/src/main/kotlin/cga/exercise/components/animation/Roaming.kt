@@ -1,14 +1,12 @@
 package cga.exercise.components.animation
 
 import cga.exercise.components.geometry.Transformable
-import cga.framework.GameWindow
 import org.joml.Math
 import org.joml.Vector3f
-import org.lwjgl.glfw.GLFW
 
 object Roaming
 {
-    open fun roam(thing:Transformable, td:Float, window:GameWindow, speed:Float=4f, orientation:Int=0)
+    open fun roam(thing: Transformable, td: Float, speed: Float = 4f, orientation: Int = 0)
     {
         var speedPush:Float
         var moving:Boolean=false

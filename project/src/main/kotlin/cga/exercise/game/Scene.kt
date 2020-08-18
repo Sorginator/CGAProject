@@ -41,6 +41,7 @@ class Scene(private val window: GameWindow) {
 
     val baum_01 : Baum
     val baum_02 : Baum
+    val boom:MutableList<Baum>
     val rose: Renderable
     //val ground: GrasGround
     val gras: texturedObject
@@ -86,14 +87,25 @@ class Scene(private val window: GameWindow) {
         baum_01 = Baum(-2f, 0f, 0f, 90f, 0f, 90f, 1, true, true)
         baum_02 = Baum(-4f, 0f, 0f, 90f, 0f, 90f, 1, false)
 
+        //mehr Baum
+        boom= listOf(
+                Baum(2f, 0f, 2f, 90f, 0f, 90f, 1, false),
+                Baum(3f, 0f, 5f, 90f, 0f, 90f, 1, false),
+                Baum(4f, 0f, 1f, 90f, 0f, 90f, 1, false),
+                Baum(5f, 0f, 3f, 90f, 0f, 90f, 1, false),
+                Baum(6f, 0f, 7f, 90f, 0f, 90f, 1, false),
+                Baum(7f, 0f, 8f, 90f, 0f, 90f, 1, false),
+                Baum(8f, 0f, 6f, 90f, 0f, 90f, 1, false),
+                Baum(9f, 0f, 4f, 90f, 0f, 90f, 1, false)).toMutableList()
+
         // Spinne
         spinne = Spinne(2f, 0.1f, 0f, 0f, 0f, 0f)
 
         // Katze
-        cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", -6f, 0f, -6f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+        cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", -4f, 0f, -4f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
         //Beet
-        beet=Rosenbeet(50, -4f,-4f,-8f,-8f)
+        beet=Rosenbeet(50, -2.5f,-2.5f,-6.5f,-6.5f)
 
         // Ente
         ente = Ente("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj", 2f, 0.1f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f, true)
@@ -102,23 +114,23 @@ class Scene(private val window: GameWindow) {
         ente_w = Ente("assets/complex objects/Nagnag_w/12249_Bird_v1_L2.obj", 3f, 0.1f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f, true)
 
         // Vogel
-        vogel = texturedObject("assets/complex objects/Bird/12214_Bird_v1max_l3.obj", 4f, 0f, 5f, -90f, 90f, 0f, 0.01f, 0.01f, 0.01f)
+        vogel = texturedObject("assets/complex objects/Bird/12214_Bird_v1max_l3.obj", 4f, 2f, 5f, -90f, 90f, 0f, 0.01f, 0.01f, 0.01f)
 
         // Hund
-        beagle = texturedObject("assets/complex objects/Beagle/13041_Beagle_v1_L1.obj", -3f, 0f, 21f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+        beagle = texturedObject("assets/complex objects/Beagle/13041_Beagle_v1_L1.obj", -3f, 0.02f, 11f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
         // Castle
         castle = texturedObject("assets/complex objects/Castle/Castle OBJ.obj", 2f, 0f, -5f, -90f, 90f, -90f)
 
         // Haus
-        haus = texturedObject("assets/complex objects/Farmhouse/farmhouse_obj.obj", 2f, 0f, 20f, -90f, 90f, -90f, 0.2f, 0.2f, 0.2f)
+        haus = texturedObject("assets/complex objects/Farmhouse/farmhouse_obj.obj", 2f, 0f, 10f, -90f, 90f, -90f, 0.2f, 0.2f, 0.2f)
 
         // Haus 2
-        haus2 = texturedObject("assets/complex objects/cottage2/abandoned_cottage.obj", 15f, 0f, 20f, 0f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+        haus2 = texturedObject("assets/complex objects/cottage2/abandoned_cottage.obj", 15f, 0f, 10f, 0f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
         // Rose
         rose = ModelLoader.loadModel("assets/complex objects/Rose/rose.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
-        rose.translateGlobal(Vector3f(2f, 0f, 2f))
+        rose.translateGlobal(Vector3f(1f, 0f, 1f))
         rose.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
         rose.rotateLocal(0f, 0f, Math.toRadians(-90f))
 
@@ -178,6 +190,7 @@ class Scene(private val window: GameWindow) {
         wald.render(aktuellerShader)
         haus.render(aktuellerShader)
         beet.render(aktuellerShader)
+        boom.forEach { it.render(aktuellerShader) }
     }
 
     /* ***********************************************************
@@ -196,10 +209,13 @@ class Scene(private val window: GameWindow) {
         }
         baum_01.animate(dt)
         wald.update(dt)
-        Roaming.roam(beagle.loadedObject,dt,window,3f)
-        Roaming.roam(cat.loadedObject,dt,window,0.01f,1)
-        if(referenzObjekt!=spinne)Roaming.roam(spinne.loadedObject,dt,window,15f)
-        if(referenzObjekt!=ente_w)Roaming.roam(ente_w.loadedObject,dt,window,5f)
+        Roaming.roam(beagle.loadedObject, dt, 3f)
+        Roaming.roam(cat.loadedObject, dt, 0.0001f, 3)
+        if(referenzObjekt!=spinne)Roaming.roam(spinne.loadedObject, dt, 15f)
+        if(referenzObjekt!=ente_w)Roaming.roam(ente_w.loadedObject, dt, 5f, 3)
+        Roaming.roam(ente.loadedObject, dt, 5f, 3)
+        Roaming.roam(vogel.loadedObject, dt, 30f, 3)
+        Flying.roamAltitude(vogel.loadedObject,dt,30f)
     }
 
     /* ***********************************************************
