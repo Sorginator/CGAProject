@@ -31,10 +31,12 @@ class Rosenbeet (val c: Int, val posMinX: Float, val posMinY: Float, val posMaxX
             {
                 var x = (Math.random() * (posMaxX - posMinX) + posMinX).toFloat()
                 var y = (Math.random() * (posMaxY - posMinY) + posMinY).toFloat()
-                var r = Renderable(lRose.meshes, this)
+                var r = Renderable(lRose.meshes,this)
                 r.translateLocal(Vector3f(x, 0f, y))
+                r.scaleLocal(Vector3f(0.01f, 0.01f, 0.01f))
+                r.rotateLocal(0f, 0f, org.joml.Math.toRadians(-90f))
                 rosen.add(r)
-                a--
+                a -= 1
             }
         }
 

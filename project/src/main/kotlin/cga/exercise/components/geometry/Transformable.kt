@@ -5,6 +5,9 @@ import org.joml.Vector3f
 
 open class Transformable(p:Transformable?) : ITransformable
 {
+    open var rhRot:Boolean=true
+    open var rhDir:Boolean=true
+
     var modelMatrix : Matrix4f = Matrix4f().identity()
     var parent : Transformable? = p
 

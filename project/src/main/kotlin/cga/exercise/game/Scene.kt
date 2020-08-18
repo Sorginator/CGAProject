@@ -2,6 +2,7 @@ package cga.exercise.game
 
 import cga.exercise.components.`object`.*
 import cga.exercise.components.animation.Flying
+import cga.exercise.components.animation.Roaming
 import cga.exercise.components.camera.ProjectCamera
 import cga.exercise.components.geometry.*
 import cga.exercise.components.light.PointLight
@@ -92,7 +93,7 @@ class Scene(private val window: GameWindow) {
         cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", -6f, 0f, -6f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
         //Beet
-        beet=Rosenbeet(30, -5f,-5f,-7f,-7f)
+        beet=Rosenbeet(50, -4f,-4f,-8f,-8f)
 
         // Ente
         ente = Ente("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj", 2f, 0.1f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f, true)
@@ -104,7 +105,7 @@ class Scene(private val window: GameWindow) {
         vogel = texturedObject("assets/complex objects/Bird/12214_Bird_v1max_l3.obj", 4f, 0f, 5f, -90f, 90f, 0f, 0.01f, 0.01f, 0.01f)
 
         // Hund
-        beagle = texturedObject("assets/complex objects/Beagle/13041_Beagle_v1_L1.obj", 4f, 0f, 5f, -90f, 90f, 0f, 0.01f, 0.01f, 0.01f)
+        beagle = texturedObject("assets/complex objects/Beagle/13041_Beagle_v1_L1.obj", -3f, 0f, 21f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
         // Castle
         castle = texturedObject("assets/complex objects/Castle/Castle OBJ.obj", 2f, 0f, -5f, -90f, 90f, -90f)
@@ -127,7 +128,7 @@ class Scene(private val window: GameWindow) {
         // Objekte aneiander gereiht
         //ground = GrasGround(20, 20, -10f * 3, -10f * 3)
 
-        wald = Wald(30, -30f, -30f, 30f, 30f, 5f)
+        wald = Wald(40, -30f, -30f, 30f, 30f, 5f)
 
         // Kamera
         referenzObjekt = ente_w
@@ -176,6 +177,7 @@ class Scene(private val window: GameWindow) {
         baum_02.render(aktuellerShader)
         wald.render(aktuellerShader)
         haus.render(aktuellerShader)
+        beet.render(aktuellerShader)
     }
 
     /* ***********************************************************
@@ -194,6 +196,10 @@ class Scene(private val window: GameWindow) {
         }
         baum_01.animate(dt)
         wald.update(dt)
+        Roaming.roam(beagle.loadedObject,dt,window,3f)
+        Roaming.roam(cat.loadedObject,dt,window,0.01f,1)
+        if(referenzObjekt!=spinne)Roaming.roam(spinne.loadedObject,dt,window,15f)
+        if(referenzObjekt!=ente_w)Roaming.roam(ente_w.loadedObject,dt,window,5f)
     }
 
     /* ***********************************************************

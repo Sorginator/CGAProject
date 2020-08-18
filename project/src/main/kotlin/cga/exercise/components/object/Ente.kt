@@ -28,7 +28,8 @@ class Ente(path: String, posX: Float, posY: Float, posZ: Float, rotX: Float= 0f,
         //Ente normal Bewegen lassen
         super.walk(timeDifference, window, time)
         //Ente Watscheln lassen
-        if (isMoving)
+        //zum positionieren aus
+        if (false)//(isMoving)
         {
             temp=Math.toRadians(timeDifference * 40 * speedPush)
             if (delta < 0.2f&&dir)
