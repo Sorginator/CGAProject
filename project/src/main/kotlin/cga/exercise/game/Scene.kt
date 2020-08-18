@@ -30,6 +30,7 @@ class Scene(private val window: GameWindow) {
     val sonne : PointLight
     val loadedObjectGround : loadedObject
     val spinne : Spinne
+    val spinnenschwarm:MutableList<Spinne>
     val cat: texturedObject
     val ente: Ente
     val ente_w: Ente
@@ -101,8 +102,16 @@ class Scene(private val window: GameWindow) {
         // Spinne
         spinne = Spinne(2f, 0.1f, 0f, 0f, 0f, 0f)
 
+        spinnenschwarm= mutableListOf(
+                Spinne(2f, 0.1f, 0f, 0f, 0f, 0f),
+                Spinne(2f, 0.1f, 0f, 0f, 0f, 0f),
+                Spinne(2f, 0.1f, 0f, 0f, 0f, 0f),
+                Spinne(2f, 0.1f, 0f, 0f, 0f, 0f),
+                Spinne(2f, 0.1f, 0f, 0f, 0f, 0f)
+        )
+
         // Katze
-        cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", -4f, 0f, -4f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+        cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", -4f, 0.05f, -4f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
         //Beet
         beet=Rosenbeet(50, -2.5f,-2.5f,-6.5f,-6.5f)
@@ -191,6 +200,7 @@ class Scene(private val window: GameWindow) {
         haus.render(aktuellerShader)
         beet.render(aktuellerShader)
         boom.forEach { it.render(aktuellerShader) }
+        spinnenschwarm.forEach { it.render(aktuellerShader) }
     }
 
     /* ***********************************************************
@@ -213,9 +223,10 @@ class Scene(private val window: GameWindow) {
         Roaming.roam(cat.loadedObject, dt, 0.0001f, 3)
         if(referenzObjekt!=spinne)Roaming.roam(spinne.loadedObject, dt, 15f)
         if(referenzObjekt!=ente_w)Roaming.roam(ente_w.loadedObject, dt, 5f, 3)
-        Roaming.roam(ente.loadedObject, dt, 5f, 3)
+        if(referenzObjekt!=ente)Roaming.roam(ente.loadedObject, dt, 5f, 3)
         Roaming.roam(vogel.loadedObject, dt, 30f, 3)
         Flying.roamAltitude(vogel.loadedObject,dt,30f)
+        spinnenschwarm.forEach { Roaming.roam(it.loadedObject, dt, 900f,1) }
     }
 
     /* ***********************************************************

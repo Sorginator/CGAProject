@@ -12,7 +12,7 @@ object Roaming
         var moving:Boolean=false
         var rushing:Boolean=false
         var rotation:Boolean=false
-        var s=speed+20
+        var s=speed*10
         var xc=0
         var zc=0
         if(orientation==0)
