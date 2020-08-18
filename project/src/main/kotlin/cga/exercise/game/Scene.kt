@@ -117,7 +117,7 @@ class Scene(private val window: GameWindow) {
         vogel = texturedObject("assets/complex objects/Bird/12214_Bird_v1max_l3.obj", 4f, 2f, 5f, -90f, 90f, 0f, 0.01f, 0.01f, 0.01f)
 
         // Hund
-        beagle = texturedObject("assets/complex objects/Beagle/13041_Beagle_v1_L1.obj", -3f, 0.02f, 11f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+        beagle = texturedObject("assets/complex objects/Beagle/13041_Beagle_v1_L1.obj", -3f, 0.05f, 11f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
         // Castle
         castle = texturedObject("assets/complex objects/Castle/Castle OBJ.obj", 2f, 0f, -5f, -90f, 90f, -90f)
