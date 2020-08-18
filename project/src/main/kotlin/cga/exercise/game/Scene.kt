@@ -46,6 +46,8 @@ class Scene(private val window: GameWindow) {
 
     val wald: Wald
 
+    val beet:Rosenbeet
+
     var old_mouse_pos_x : Double
     var old_mouse_pos_y : Double
 
@@ -87,7 +89,10 @@ class Scene(private val window: GameWindow) {
         spinne = Spinne(2f, 0.1f, 0f, 0f, 0f, 0f)
 
         // Katze
-        cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", 2f, 0f, 1f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+        cat = texturedObject("assets/complex objects/cat/12221_Cat_v1_l3.obj", -6f, 0f, -6f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+
+        //Beet
+        beet=Rosenbeet(30, -5f,-5f,-7f,-7f)
 
         // Ente
         ente = Ente("assets/complex objects/Nagnag/12248_Bird_v1_L2.obj", 2f, 0.1f, 3f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f, true)
