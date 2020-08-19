@@ -225,7 +225,7 @@ class Scene(private val window: GameWindow) {
         if(referenzObjekt!=ente)Roaming.roam(ente.loadedObject, dt, 5f, 3)
         Roaming.roam(vogel.loadedObject, dt, 30f, 3)
         Flying.roamAltitude(vogel.loadedObject,dt,30f)
-        spinnenschwarm.forEach { Roaming.roam(it.loadedObject, dt, 900f,1) }
+        spinnenschwarm.forEach { Roaming.roam(it.loadedObject, dt, 200f,1) }
     }
 
     /* ***********************************************************
