@@ -17,7 +17,6 @@ class Material(var diff: Texture2D,
         shaderProgram.setUniform("emit_tex", 1)
         specular.bind(2)
         shaderProgram.setUniform("spec_tex", 2)
-        // todo 3.2
         shaderProgram.setUniform("tcMultiplier", tcMultiplier)
         shaderProgram.setUniform("shininess", shininess)
     }
