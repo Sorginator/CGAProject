@@ -233,7 +233,7 @@ class Scene(private val window: GameWindow) {
     ************************************************************ */
 
     fun onKey(key: Int, scancode: Int, action: Int, mode: Int) {
-        if (key == GLFW.GLFW_KEY_TAB && action == 1 && mode == 0) { // F11 zum Wechseln des aktiven Shaders
+        if (key == GLFW.GLFW_KEY_TAB && action == 1 && mode == 0) { // TAB zum Wechseln des aktiven Shaders
             when (shaderAuswahl) {
                 1 -> shaderAuswahl = 2
                 2 -> shaderAuswahl = 3
@@ -243,9 +243,9 @@ class Scene(private val window: GameWindow) {
                 }
             }
         }
-        print(key)
+        /*print(key)
         print(", ")
-        println(GLFW.GLFW_KEY_TAB)
+        println(GLFW.GLFW_KEY_TAB)*/
         // Wechsel des Walkables
         if(key == GLFW.GLFW_KEY_RIGHT && action == 1 && mode == 0) // Rechts
         {
