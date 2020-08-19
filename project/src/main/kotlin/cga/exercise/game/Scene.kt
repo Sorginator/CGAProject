@@ -12,6 +12,7 @@ import cga.framework.*
 import org.joml.Vector3f
 import org.lwjgl.opengl.GL11.*
 import org.joml.Math
+import org.lwjgl.glfw.GLFW
 import java.awt.MouseInfo
 
 
@@ -42,7 +43,7 @@ class Scene(private val window: GameWindow) {
 
     val baum_01 : Baum
     val baum_02 : Baum
-    val boom:MutableList<Baum>
+    //val boom:MutableList<Baum>
     val rose: Renderable
     //val ground: GrasGround
     val gras: texturedObject
@@ -89,7 +90,7 @@ class Scene(private val window: GameWindow) {
         baum_02 = Baum(-4f, 0f, 0f, 90f, 0f, 90f, 1, false)
 
         //mehr Baum
-        boom= listOf(
+        /*boom= listOf(
                 Baum(2f, 0f, 2f, 90f, 0f, 90f, 1, false),
                 Baum(3f, 0f, 5f, 90f, 0f, 90f, 1, false),
                 Baum(4f, 0f, 1f, 90f, 0f, 90f, 1, false),
@@ -98,7 +99,7 @@ class Scene(private val window: GameWindow) {
                 Baum(7f, 0f, 8f, 90f, 0f, 90f, 1, false),
                 Baum(8f, 0f, 6f, 90f, 0f, 90f, 1, false),
                 Baum(9f, 0f, 4f, 90f, 0f, 90f, 1, false)).toMutableList()
-
+*/
         // Spinne
         spinne = Spinne(2f, 0.1f, 0f, 0f, 0f, 0f)
 
@@ -199,7 +200,7 @@ class Scene(private val window: GameWindow) {
         wald.render(aktuellerShader)
         haus.render(aktuellerShader)
         beet.render(aktuellerShader)
-        boom.forEach { it.render(aktuellerShader) }
+        //boom.forEach { it.render(aktuellerShader) }
         spinnenschwarm.forEach { it.render(aktuellerShader) }
     }
 
@@ -234,7 +235,7 @@ class Scene(private val window: GameWindow) {
     ************************************************************ */
 
     fun onKey(key: Int, scancode: Int, action: Int, mode: Int) {
-        if (key == 290 && scancode == 59 && action == 1 && mode == 0) { // F11 zum Wechseln des aktiven Shaders
+        if (key == GLFW.GLFW_KEY_F1 && action == 1 && mode == 0) { // F11 zum Wechseln des aktiven Shaders
             when (shaderAuswahl) {
                 1 -> shaderAuswahl = 2
                 2 -> shaderAuswahl = 3
@@ -252,14 +253,14 @@ class Scene(private val window: GameWindow) {
         print(", ")
         println(mode)*/
         // Wechsel des Walkables
-        if(key == 262 && scancode == 333 && action == 1 && mode == 0) // Rechts
+        if(key == GLFW.GLFW_KEY_RIGHT && action == 1 && mode == 0) // Rechts
         {
             camWechsel(1)
-        } else if (key == 263 && scancode == 331 && action == 1 && mode == 0) { // Links
+        } else if (key == GLFW.GLFW_KEY_LEFT && scancode == 331 && action == 1 && mode == 0) { // Links
             camWechsel(-1)
         }
         //Kamera wird per "Tab" zwischen Fly und Normal gewechselt
-        if(key == 258 && scancode == 15 && action == 1 && mode == 0)
+        if(key == GLFW.GLFW_KEY_TAB && scancode == 15 && action == 1 && mode == 0)
         {
             switchCam()
         }
