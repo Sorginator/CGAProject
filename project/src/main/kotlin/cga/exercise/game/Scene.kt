@@ -243,13 +243,9 @@ class Scene(private val window: GameWindow) {
                 }
             }
         }
-        /*print(key)
+        print(key)
         print(", ")
-        print(scancode)
-        print(", ")
-        print(action)
-        print(", ")
-        println(mode)*/
+        println(GLFW.GLFW_KEY_F1)
         // Wechsel des Walkables
         if(key == GLFW.GLFW_KEY_RIGHT && action == 1 && mode == 0) // Rechts
         {
