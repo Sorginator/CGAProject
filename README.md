@@ -1,25 +1,17 @@
-# CGAProject
-Dies ist das Template Projekt für die Abschlussprojekte im Modul Computergrafik und Animation an der TH Köln.
-
-Bitte forken Sie dieses Projekt und entwickeln Sie Ihr Abschlussprojekt in diesem Fork weiter. Denken Sie daran uwemuesse und martineisemann als Collaborators hinzuzufügen, damit wir darauf zugreifen können.
-
-Löschen Sie als erstes den Abschnitt CGAProjekt in dieser Datei und füllen Sie den Rest entsprechend aus für die Abgabe. 
-
 # Projektname
-Fügen Sie ihren Projektnamen hinzu
+Natur Pur
 
 # Teammitglieder
 Listen Sie hier noch einmal alle Teammitglieder auf.
-- Armin Anfang
-- Berta Beliebig
-- Carola Coautor
+- Mathieu Sorg
+- Christiane Zapp
 
 # Featureliste 
-Listen Sie hier alle relevanten Features als Liste mit sinnvoller Reihenfolge auf mit Angabe wer das Feature implementiert hat.
+- Verschiedene Modelle (2 Enten, Spinne, Katze, Hund, 2 Bäume, Gras, Vogel & Rose) eingebunden (Mathieu)
+- Bewegungen für Tier-Objekte (Christiane)
+- 3 Steuerbare Objekte in 2 eigenen Klassen Realisiert (Enten & Spinne) & 1 Flycam (Mathieu & Christiane)
+	- Wechsel zwischen Objekten/Fly-Cam via Pfeiltasten Links/Rechts
+- Wachsende Bäume (Mathieu)
+- 3 Verschiedene Shader integriert (Phong-, Toon- & Normalenshader), wechsel via F1 (Mathieu)
 
-Bspw.
 
-- Verschiedene Kameramodelle (Wechsel zwischen orthographischer und perspektivischer Kamera mittels "c") (Berta)
-- Dynamische Kamera (Steuerung mittels Maus und "WASD" auf der Tastatur) (Carola und Armin)
-- Verschiedene Shaderprogramme (Wechsel mittels "s") (Carola)
-- ...
