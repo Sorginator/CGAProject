@@ -40,6 +40,7 @@ class Scene(private val window: GameWindow) {
     val haus2: texturedObject
     val haus: texturedObject
     val castle: texturedObject
+    val flycam: Walkable
 
     val baum_01 : Baum
     val baum_02 : Baum
@@ -138,6 +139,8 @@ class Scene(private val window: GameWindow) {
         // Haus 2
         haus2 = texturedObject("assets/complex objects/cottage2/abandoned_cottage.obj", 15f, 0f, 10f, 0f, 0f, 0f, 0.01f, 0.01f, 0.01f)
 
+        flycam = Walkable("assets/complex objects/Beagle/13041_Beagle_v1_L1.obj", -3f, 0.05f, 11f, -90f, 0f, 0f, 0.01f, 0.01f, 0.01f)
+
         // Rose
         rose = ModelLoader.loadModel("assets/complex objects/Rose/rose.obj",  Math.toRadians(-90f), Math.toRadians(90f), 0f)?: throw IllegalArgumentException("Could not load the model")
         rose.translateGlobal(Vector3f(1f, 0f, 1f))
@@ -145,10 +148,7 @@ class Scene(private val window: GameWindow) {
         rose.rotateLocal(0f, 0f, Math.toRadians(-90f))
 
         // Gras
-        // 1 Objekt mit gestreckter Textur
         gras = texturedObject("assets/complex objects/gras/10450_Rectangular_Grass_Patch_v1_iterations-2.obj", 0f, 0f, 0f, -90f, 90f, 0f, 0.5f, 0.01f, 0.5f)
-        // Objekte aneiander gereiht
-        //ground = GrasGround(20, 20, -10f * 3, -10f * 3)
 
         wald = Wald(40, -30f, -30f, 30f, 30f, 5f)
 
@@ -208,12 +208,9 @@ class Scene(private val window: GameWindow) {
 
     fun update(dt: Float, t: Float)
     {
-        if(cam.parent==null)
-        {
+        if(cam.parent==null) {
             Flying.fly(cam,dt,window)
-        }
-        else
-        {
+        } else {
             referenzObjekt.walk(dt, window, t)
         }
         baum_01.animate(dt)
@@ -253,11 +250,6 @@ class Scene(private val window: GameWindow) {
         } else if (key == GLFW.GLFW_KEY_LEFT && scancode == 331 && action == 1 && mode == 0) { // Links
             camWechsel(-1)
         }
-        //Kamera wird per "Tab" zwischen Fly und Normal gewechselt
-        /*if(key == GLFW.GLFW_KEY_TAB && scancode == 15 && action == 1 && mode == 0)
-        {
-            switchCam()
-        }*/
     }
 
     /* ***********************************************************
@@ -265,10 +257,10 @@ class Scene(private val window: GameWindow) {
     ************************************************************ */
 
     fun camWechsel(richtung: Int) {
-        if ((aktKameraAuswahl + richtung) > 3) {
+        if ((aktKameraAuswahl + richtung) > 4) {
             aktKameraAuswahl = 1
         } else if ((aktKameraAuswahl + richtung) < 0) {
-            aktKameraAuswahl = 3
+            aktKameraAuswahl = 4
         } else {
             aktKameraAuswahl += richtung
         }
@@ -276,11 +268,14 @@ class Scene(private val window: GameWindow) {
             1 -> referenzObjekt = ente
             2 -> referenzObjekt = ente_w
             3 -> referenzObjekt = spinne
-            else -> referenzObjekt = ente
+            else -> referenzObjekt = flycam
         }
-        //cam.changeParent(newTarget.loadedObject)
-        cam=ProjectCamera(referenzObjekt.loadedObject)
-        referenzObjekt.initCamera(cam)
+        if (referenzObjekt != flycam) {
+            cam = ProjectCamera(referenzObjekt.loadedObject)
+            referenzObjekt.initCamera(cam)
+        } else {
+            cam = ProjectCamera(null)
+        }
     }
 
     fun onMouseMove(xpos: Double, ypos: Double)
