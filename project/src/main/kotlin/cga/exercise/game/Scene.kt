@@ -43,7 +43,7 @@ class Scene(private val window: GameWindow) {
 
     val baum_01 : Baum
     val baum_02 : Baum
-    //val boom:MutableList<Baum>
+    val boom:MutableList<Baum>
     val rose: Renderable
     //val ground: GrasGround
     val gras: texturedObject
@@ -90,7 +90,7 @@ class Scene(private val window: GameWindow) {
         baum_02 = Baum(-4f, 0f, 0f, 90f, 0f, 90f, 1, false)
 
         //mehr Baum
-        /*boom= listOf(
+        boom= listOf(
                 Baum(2f, 0f, 2f, 90f, 0f, 90f, 1, false),
                 Baum(3f, 0f, 5f, 90f, 0f, 90f, 1, false),
                 Baum(4f, 0f, 1f, 90f, 0f, 90f, 1, false),
@@ -99,7 +99,7 @@ class Scene(private val window: GameWindow) {
                 Baum(7f, 0f, 8f, 90f, 0f, 90f, 1, false),
                 Baum(8f, 0f, 6f, 90f, 0f, 90f, 1, false),
                 Baum(9f, 0f, 4f, 90f, 0f, 90f, 1, false)).toMutableList()
-*/
+
         // Spinne
         spinne = Spinne(2f, 0.1f, 0f, 0f, 0f, 0f)
 
@@ -177,9 +177,7 @@ class Scene(private val window: GameWindow) {
             1 -> aktuellerShader = staticShader
             2 -> aktuellerShader = toonShader
             3 -> aktuellerShader = normalenShader
-            else -> {
-
-            }
+            else -> {}
         }
         aktuellerShader.use()
         cam.bind(aktuellerShader)
@@ -200,7 +198,7 @@ class Scene(private val window: GameWindow) {
         wald.render(aktuellerShader)
         haus.render(aktuellerShader)
         beet.render(aktuellerShader)
-        //boom.forEach { it.render(aktuellerShader) }
+        boom.forEach { it.render(aktuellerShader) }
         spinnenschwarm.forEach { it.render(aktuellerShader) }
     }
 
