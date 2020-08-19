@@ -153,9 +153,9 @@ class Scene(private val window: GameWindow) {
         wald = Wald(40, -30f, -30f, 30f, 30f, 5f)
 
         // Kamera
-        referenzObjekt = ente_w
+        referenzObjekt = ente
         cam= ProjectCamera(referenzObjekt.loadedObject)
-        ente_w.initCamera(cam)
+        referenzObjekt.initCamera(cam)
 
         spotLight= SpotLight(Vector3f(0f,1f,0f), Vector3f(0.5f, 0.05f, 0.01f),Vector3f(0.5f,0.5f,1f), ente.loadedObject, 15f,20f)
         spotLight.rotateLocal(Math.toRadians(-20f),0f,0f)
@@ -281,29 +281,6 @@ class Scene(private val window: GameWindow) {
         //cam.changeParent(newTarget.loadedObject)
         cam=ProjectCamera(referenzObjekt.loadedObject)
         referenzObjekt.initCamera(cam)
-    }
-
-    fun switchRef(r:Walkable)
-    {
-        referenzObjekt=r
-        if(cam.parent!=null)
-        {
-            cam=ProjectCamera(referenzObjekt.loadedObject)
-        }
-    }
-
-    fun switchCam()
-    {
-        if(cam.parent==null)
-        {
-            cam=ProjectCamera(referenzObjekt.loadedObject)
-        }
-        else
-        {
-            cam=ProjectCamera(null)
-            cam.modelMatrix=referenzObjekt.loadedObject.getWorldModelMatrix()
-            cam.translateGlobal(Vector3f(0f, 10f, 0f))
-        }
     }
 
     fun onMouseMove(xpos: Double, ypos: Double)
