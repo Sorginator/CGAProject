@@ -38,6 +38,9 @@ object Flying
             thing.rotateAroundPoint(0f, Math.toRadians(-1f*td*speed),0f,thing.getPosition())
         }
     }
+
+    //add on zu roam
+
     open fun roamAltitude(thing:Transformable, td:Float, speed:Float=4f)
     {
         var a:Float =(thing.rhAlt-5f)*(Math.random()-0.5).toFloat()
