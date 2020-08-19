@@ -24,19 +24,17 @@ class Mesh(vertexdata: FloatArray, indexdata: IntArray, attributes: Array<Vertex
     private var indexcount = 0
 
     init {
-        // todo: place your code here
-
-        // todo: generate IDs
+        // Generate ID's
         vao = GL30.glGenVertexArrays()
         vbo = GL30.glGenBuffers()
         ibo = GL30.glGenBuffers()
 
-        // todo: bind your objects
+        // Bind the Objects
         GL30.glBindVertexArray(vao)
         GL30.glBindBuffer(GL30.GL_ARRAY_BUFFER, vbo)
         GL30.glBindBuffer(GL30.GL_ELEMENT_ARRAY_BUFFER, ibo)
 
-        // todo: upload your mesh data
+        // Upload mesh data
         GL30.glBufferData(GL30.GL_ARRAY_BUFFER, vertexdata, GL30.GL_STATIC_DRAW)
         GL30.glBufferData(GL30.GL_ELEMENT_ARRAY_BUFFER, indexdata, GL30.GL_STATIC_DRAW)
 
@@ -62,26 +60,22 @@ class Mesh(vertexdata: FloatArray, indexdata: IntArray, attributes: Array<Vertex
         GL30.glBindBuffer(GL30.GL_ELEMENT_ARRAY_BUFFER, 0)
     }
 
-    /**
-     * renders the mesh
-     */
+    // Render the mesh
     fun render() {
-        // todo: place your code here
-        // call the rendering method every frame
+        // Call the rendering method every frame
         GL30.glBindVertexArray(vao)
         GL30.glDrawElements(GL30.GL_TRIANGLES, indexcount, GL30.GL_UNSIGNED_INT, 0)
         GL30.glBindVertexArray(0)
     }
 
+    // Render mit Shaderübergabe
     fun render(shader: ShaderProgram)
     {
         material?.bind(shader)
         render()
     }
 
-    /**
-     * Deletes the previously allocated OpenGL objects for this mesh
-     */
+    // Deletes the previously allocated OpenGL objects for this mesh
     fun cleanup() {
         if (ibo != 0) GL15.glDeleteBuffers(ibo)
         if (vbo != 0) GL15.glDeleteBuffers(vbo)

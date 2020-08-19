@@ -11,7 +11,7 @@ open class Renderable(m:MutableList<Mesh>, p: Transformable? = null) :Transforma
 {
     val meshes : MutableList<Mesh> = m
 
-
+    // Veraltete Renderfunktion für den Staticshader
     fun render(shaderProgram: ShaderProgram, colo:Vector4f, t:Float)
     {
         var c:Vector3f
@@ -27,6 +27,7 @@ open class Renderable(m:MutableList<Mesh>, p: Transformable? = null) :Transforma
         }
     }
 
+    // Aktuelle Standartfunktion zum Rendern eines Renderables
     override fun render(shaderProgram: ShaderProgram)
     {
         shaderProgram.setUniform("model_matrix", getWorldModelMatrix(), false)

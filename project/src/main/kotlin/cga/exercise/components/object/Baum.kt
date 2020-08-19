@@ -21,6 +21,7 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
 
 
     init {
+        // Man kann zwischen 2 Baumvarianten wählen, oder aber Meshes übergeben, aus denen dann ein Rederable erstellt wird
         if (meshes != null) {
             loadedObject = Renderable(meshes)
         } else {
@@ -35,6 +36,7 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
         growingState = 0f
         timeTillNextAnimState = 0f
         growingStateMax = 2f
+        // Wenn der Baum wachsen soll, wird das hier aktiviert
         if (growable) {
             loadedObject.scaleLocal(Vector3f(0.1f, 0.1f, 0.1f))
             if (growingAtInit) {
@@ -44,10 +46,12 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
         }
     }
 
+    // Ausführen des Renderaufrufes von dem Renderable
     fun render(shader: ShaderProgram) {
         loadedObject.render(shader)
     }
 
+    // Animation vom fallen/Wachsen der Bäume
     fun animate(timeDifference: Float) {
         if (animate) {
             if (timeTillNextAnimState > 0.1) {
