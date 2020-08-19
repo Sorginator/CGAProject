@@ -233,7 +233,7 @@ class Scene(private val window: GameWindow) {
     ************************************************************ */
 
     fun onKey(key: Int, scancode: Int, action: Int, mode: Int) {
-        if (key == GLFW.GLFW_KEY_F1 && action == 1 && mode == 0) { // F11 zum Wechseln des aktiven Shaders
+        if (key == GLFW.GLFW_KEY_TAB && action == 1 && mode == 0) { // F11 zum Wechseln des aktiven Shaders
             when (shaderAuswahl) {
                 1 -> shaderAuswahl = 2
                 2 -> shaderAuswahl = 3
@@ -245,7 +245,7 @@ class Scene(private val window: GameWindow) {
         }
         print(key)
         print(", ")
-        println(GLFW.GLFW_KEY_F1)
+        println(GLFW.GLFW_KEY_TAB)
         // Wechsel des Walkables
         if(key == GLFW.GLFW_KEY_RIGHT && action == 1 && mode == 0) // Rechts
         {
@@ -254,10 +254,10 @@ class Scene(private val window: GameWindow) {
             camWechsel(-1)
         }
         //Kamera wird per "Tab" zwischen Fly und Normal gewechselt
-        if(key == GLFW.GLFW_KEY_TAB && scancode == 15 && action == 1 && mode == 0)
+        /*if(key == GLFW.GLFW_KEY_TAB && scancode == 15 && action == 1 && mode == 0)
         {
             switchCam()
-        }
+        }*/
     }
 
     /* ***********************************************************
