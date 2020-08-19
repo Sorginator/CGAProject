@@ -259,7 +259,7 @@ class Scene(private val window: GameWindow) {
     fun camWechsel(richtung: Int) {
         if ((aktKameraAuswahl + richtung) > 4) {
             aktKameraAuswahl = 1
-        } else if ((aktKameraAuswahl + richtung) < 0) {
+        } else if ((aktKameraAuswahl + richtung) < 1) {
             aktKameraAuswahl = 4
         } else {
             aktKameraAuswahl += richtung
@@ -275,13 +275,23 @@ class Scene(private val window: GameWindow) {
             referenzObjekt.initCamera(cam)
         } else {
             cam = ProjectCamera(null)
+            cam.translateLocal(Vector3f(0f,2f,0f))
+            cam.rotateLocal(0f,Math.toRadians(180f),0f)
         }
     }
 
     fun onMouseMove(xpos: Double, ypos: Double)
     {
-        cam.rotateAroundPoint(0.0f, (xpos-old_mouse_pos_x).toFloat()*0.002f,0f, Vector3f(0f))
+        if(cam.parent!=null)
+        {
+            cam.rotateAroundPoint(0.0f, (xpos - old_mouse_pos_x).toFloat() * 0.002f, 0f, Vector3f(0f))
+        }
+        else
+        {
+            cam.rotateLocal((ypos - old_mouse_pos_y).toFloat() * -0.002f, (xpos - old_mouse_pos_x).toFloat() * -0.002f, 0f)
+        }
         old_mouse_pos_x = xpos
+        old_mouse_pos_y = ypos
     }
 
     fun cleanup() {}
