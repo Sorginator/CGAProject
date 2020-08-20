@@ -7,7 +7,7 @@ import cga.framework.ModelLoader
 import org.joml.Math
 import org.joml.Vector3f
 
-class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float = 0f, rotZ: Float = 0f, variant: Int = 0, val growable: Boolean= false, growingAtInit: Boolean = false, meshes: MutableList<Mesh>? = null) {
+class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float = 0f, rotZ: Float = 0f, variant: Int = 0, val growable: Boolean= false, growingAtInit: Boolean = false, meshes: MutableList<Mesh>? = null, lebenszeit: Float = 60f, gehoertZumWald: Wald? = null) {
 
     var loadedObject: Renderable
     var animate: Boolean = false
@@ -18,6 +18,12 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
     var growingState: Float
     var timeTillNextAnimState: Float
     var growingStateMax: Float
+    var timeToLive: Float
+    var dieable: Boolean = true
+    var nowDie: Boolean = false
+    var timeToDie: Float = 5f
+    var teilDesWaldes: Wald? = null
+    var render: Boolean = true
 
 
     init {
@@ -44,21 +50,39 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
                 animate = true
             }
         }
+        timeToLive = lebenszeit
+        teilDesWaldes = gehoertZumWald
     }
 
     // Ausführen des Renderaufrufes von dem Renderable
     fun render(shader: ShaderProgram) {
-        loadedObject.render(shader)
+        if (render)
+            loadedObject.render(shader)
     }
 
-    // Animation vom fallen/Wachsen der Bäume
+    // Animation vom fallen/Wachsen der Bäume Ausführen
     fun animate(timeDifference: Float) {
         if (animate) {
+            // Prüfen ob die Lebenszeit des Baumes abgelaufen ist
+            if (!fallingActive && !growingActive && dieable && !nowDie) {
+                if (timeToLive < 0) {
+                    fallingActive = true
+                } else {
+                    timeToLive -= timeDifference
+                }
+            }
+            // Baum wachsen oder Fallen lassen
             if (timeTillNextAnimState > 0.1) {
-                if (fallingActive)
+                if (fallingActive) {
                     anim_falling()
-                else if (growingActive)
+                    //println("Falling!")
+                } else if (growingActive) {
                     grow(timeDifference)
+                    //println("Growing!")
+                }else if (nowDie) {
+                    anim_die(timeDifference)
+                    //println("Dying!")
+                }
             }
             timeTillNextAnimState += timeDifference
         }
@@ -85,7 +109,16 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
             loadedObject.rotateLocal(0f, 0f, Math.toRadians(-1f * animationSpeed))
             loadedObject.translateGlobal(Vector3f(0f, 0.2f / 90 * animationSpeed, 0f))
         } else {
-            animate = false
+            fallingActive = false
+            growingActive = false
+            nowDie = true
+        }
+    }
+
+    fun anim_die(timeDifference: Float) {
+        timeToDie -= timeDifference
+        if (timeToDie < 0) {
+            delete()
         }
     }
 
@@ -94,6 +127,14 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
             growingState += (timeDifference * animationSpeed)
             loadedObject.scaleLocal(Vector3f(1f + 0.01f * animationSpeed, 1f + 0.01f * animationSpeed, 1f + 0.01f * animationSpeed))
             timeTillNextAnimState = 0f
+        } else {
+            growingActive = false
+        }
+    }
+
+    fun delete() {
+        if (teilDesWaldes != null) {
+            teilDesWaldes?.deleteTree(this)
         }
     }
 }
