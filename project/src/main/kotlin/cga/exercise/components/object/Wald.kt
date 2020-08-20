@@ -59,8 +59,18 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
                 variant = 1
             }
             blacklistKoords.add(floatArrayOf(x-0.5f, x+0.5f, y-0.5f, y+0.5f))
-            Bäume.add(Baum(x, 0f, y, rot, 0f, rot, variant, true, true, baumMeshes[variant]))
+            Bäume.add(Baum(x, 0f, y, rot, 0f, rot, variant, true, true, baumMeshes[variant], 6f, this))
         }
+    }
+
+    fun deleteTree(baum: Baum) {
+        var neueBaeume: MutableList<Baum> = mutableListOf()
+        Bäume.forEach {
+            if (it != baum) {
+                neueBaeume.add(it)
+            }
+        }
+        Bäume = neueBaeume
     }
 
     fun AreaIsClear(x: Float, y: Float): Boolean {
