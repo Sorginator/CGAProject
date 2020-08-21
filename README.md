@@ -14,6 +14,12 @@ Listen Sie hier noch einmal alle Teammitglieder auf.
 - Wachsende Bäume (Mathieu)
 - 3 Verschiedene Shader integriert (Phong-, Toon- & Normalenshader), wechsel via F1 (Mathieu)
 
+# Tastenbelegung
+- TAB: Wechsel zwischen Phong-/Toon-/Normalen-Shader
+- Pfeiltasten Rechts/Links: Wechsel des Fokus-Objekts
+- W/A/S/D: Steuern des Fokus-Objekts
+- Maus: Bewegung nach Rechts/Links verändert die Kameraperspektive
+
 # Quellenangabe 
 Ente Weiblich (Nagnag_w): https://free3d.com/de/3d-model/bird-v1--94904.html
 Ente Männlich (Nagnag): https://free3d.com/de/3d-model/bird-v1--282209.html
