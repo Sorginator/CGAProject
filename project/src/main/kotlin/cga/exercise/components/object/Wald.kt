@@ -12,13 +12,15 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
     var Bäume: MutableList<Baum>
     var timePassed: Float
     val baumMeshes: Array<MutableList<Mesh>>
+    var bäumeGesetzt = 0
 
+    // Flächen auf denen keine Bäume wachsen sollen
+    // Aufbau: floatArrayOf(kleinstes X, kleinstes Z, größtes X, größtes Z)
     var blacklistKoords: MutableList<FloatArray> = mutableListOf(
             // X1, x2, z1, z2
             floatArrayOf(-5.5f + 2f, 6.5f + 2f, -5f + 20f, 1.5f + 20f),   //cottage
             floatArrayOf(-4f + 15f, 6f + 15f, -2.5f + 20f, 2.5f + 20f)
     )
-    var bäumeGesetzt = 0
 
     init {
         Bäume = mutableListOf()
@@ -31,6 +33,7 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
         )
     }
 
+    // Update Funktion, Erstellung eines neuen Baums alle "timeToNextTree"-Sekunden
     fun update(timeDifference: Float) {
         timePassed += timeDifference
         if (timePassed >= timeToNextTree) {
@@ -43,6 +46,7 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
         Bäume.forEach { it.animate(timeDifference) }
     }
 
+    // Funktion zum erstellen eines neuen Baumes (Koordinaten berechnen + Baum erstellen)
     fun plantTree() {
         var x = (Math.random()*(posMaxX - posMinX) + posMinX).toFloat()
         var y = (Math.random()*(posMaxY-posMinY) + posMinY).toFloat()
@@ -63,6 +67,7 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
         }
     }
 
+    // Löschen eines gelöschten Baumes aus der Liste des Walds
     fun deleteTree(baum: Baum) {
         var neueBaeume: MutableList<Baum> = mutableListOf()
         Bäume.forEach {
@@ -73,6 +78,7 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
         Bäume = neueBaeume
     }
 
+    // Prüfung ob ermittelte Koordinaten innerhalb einer Blacklistfläche sind
     fun AreaIsClear(x: Float, y: Float): Boolean {
         var b: Boolean = true
         for ((index, value) in blacklistKoords.withIndex()) {
@@ -83,6 +89,7 @@ class Wald(val numberOfTrees: Int, val posMinX: Float, val posMinY: Float, val p
         return b
     }
 
+    // Rendern der Bäume die aktuell in der Baumliste sind
     fun render(shader: ShaderProgram){
         Bäume.forEach { it.render(shader) }
     }
