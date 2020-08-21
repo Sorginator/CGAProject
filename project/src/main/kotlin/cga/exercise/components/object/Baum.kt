@@ -88,6 +88,7 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
         }
     }
 
+    // Resettet einen gefallenen Baum
     fun resetFalling() {
         animate = false
         loadedObject.rotateLocal(0f, 0f, Math.toRadians(fallingState))
@@ -95,14 +96,17 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
         fallingState = 0f
     }
 
+    // Pausiert eine Baum Animation
     fun pauseAnimation() {
         animate = false
     }
 
+    // (Re-)Startet eine Animation
     fun startAnimation() {
         animate = true
     }
 
+    // Führt das Fallen eines Baumes aus
     fun anim_falling() {
         if (fallingState < 90) {
             fallingState += 1*animationSpeed
@@ -115,6 +119,7 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
         }
     }
 
+    // Löscht einen Baum nach ablauf einer Zeitfrist
     fun anim_die(timeDifference: Float) {
         timeToDie -= timeDifference
         if (timeToDie < 0) {
@@ -122,6 +127,7 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
         }
     }
 
+    // Führt das wachsen eines Baumes durch
     fun grow(timeDifference: Float) {
         if (growingState < growingStateMax) {
             growingState += (timeDifference * animationSpeed)
@@ -132,6 +138,7 @@ class Baum(posX: Float, posY: Float, posZ: Float, rotX: Float = 0f, rotY: Float 
         }
     }
 
+    // Löscht einen Baum aus der Liste der gerenderten Bäume in einem Wald
     fun delete() {
         if (teilDesWaldes != null) {
             teilDesWaldes?.deleteTree(this)
